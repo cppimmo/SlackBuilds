@@ -5,4 +5,4 @@ Dependencies must be retrieved manually.
 ## Packages Included:
 - xwallpaper
 ## Disclaimer
-These are not official packages install at your own risk. No warranty.
+These are <div color="red"<b>not</b></div> currently official packages; install at your own risk. No <div color="red"><b>warranty</b></div>.
