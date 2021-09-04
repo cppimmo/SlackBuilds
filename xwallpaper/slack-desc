@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.
+# Line up the first '|' above the ':' following the base package name, and
+# the '|' on the right side marks the last column you can put a character in.
+# You must make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':' except on otherwise blank lines.
+
+          |-----handy-ruler------------------------------------------------------|
+xwallpaper: xwallpaper
+xwallpaper:
+xwallpaper: xwallpaper is a simple wallpaper settings utility for the X window
+xwallpaper: system. The program supports JPEG, PNG, and XPM image file formats.
+xwallpaper: The only required dependencies are simply those bundled directly in
+xwallpaper: the X environment such as libxcb. To support other file formats your
+xwallpaper: system needs libjpeg-turbo, libpng, and libXpm. These other 
+xwallpaper: libraries are optional.
+xwallpaper: 
+xwallpaper: Homepage: https://github.com/stoeckmann/xwallpaper
+xwallpaper:

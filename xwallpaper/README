@@ -1,0 +1,6 @@
+xwallpaper is a simple wallpaper utility for the X window system. The
+JPEG, PNG, and XPM image file formats are supported, some of which are
+not required throught the use of optional dependencies. The only
+required dependencies should come bundled with your X environment.
+
+Optional Dependencies: libjpeg-turbo libpng libXpm
