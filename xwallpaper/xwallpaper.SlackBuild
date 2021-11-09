@@ -76,7 +76,7 @@ CFLAGS="$SLKCFLAGS" \
 CXXFLAGS="$SLKCFLAGS" \
 
 function config_run {
-  local file = "$1"
+  local file="$1"
   if [ -e "$file" ]; then
 	./"$file"
   else
@@ -93,17 +93,17 @@ sed -i "s|share/man|man|" Makefile
 sed -i "s|share/doc/xwallpaper|doc/xwallpaper-$VERSION|" Makefile
 
 make PREFIX=/usr
-make PREFIX=/usr DESTDIR=$PKG --mandir=/usr/man install
+make PREFIX=/usr DESTDIR=$PKG
 
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
 
 # may need to be set to /usr/local/share/man in both places
-find $PKG/usr/man -type f -exec gzip -9 {} \;
-for i in $( find $PKG/usr/man -type l ); do
-  ln -s $( readlink $i ).gz $i.gz
-  rm $i
-done
+#find $PKG/usr/local/share/man1 -type f -exec gzip -9 {} \;
+#for i in $( find $PKG/usr/local/share/man1 -type l ); do
+#  ln -s $( readlink $i ).gz $i.gz
+#  rm $i
+#done
 
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
 cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
