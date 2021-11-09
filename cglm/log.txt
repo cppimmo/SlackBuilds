@@ -1,0 +1,531 @@
+cglm-0.8.4/
+cglm-0.8.4/.gitattributes
+cglm-0.8.4/.github/
+cglm-0.8.4/.github/FUNDING.yml
+cglm-0.8.4/.gitignore
+cglm-0.8.4/.gitmodules
+cglm-0.8.4/.travis.yml
+cglm-0.8.4/.vscode/
+cglm-0.8.4/.vscode/settings.json
+cglm-0.8.4/CMakeLists.txt
+cglm-0.8.4/CONTRIBUTING.md
+cglm-0.8.4/CREDITS
+cglm-0.8.4/LICENSE
+cglm-0.8.4/Makefile.am
+cglm-0.8.4/Package.swift
+cglm-0.8.4/README.md
+cglm-0.8.4/_config.yml
+cglm-0.8.4/appveyor.yml
+cglm-0.8.4/autogen.sh
+cglm-0.8.4/cglm.pc.in
+cglm-0.8.4/cglm.png
+cglm-0.8.4/cglm.podspec
+cglm-0.8.4/configure.ac
+cglm-0.8.4/docs/
+cglm-0.8.4/docs/make.bat
+cglm-0.8.4/docs/source/
+cglm-0.8.4/docs/source/affine-mat.rst
+cglm-0.8.4/docs/source/affine.rst
+cglm-0.8.4/docs/source/affine2d.rst
+cglm-0.8.4/docs/source/api.rst
+cglm-0.8.4/docs/source/bezier.rst
+cglm-0.8.4/docs/source/box.rst
+cglm-0.8.4/docs/source/build.rst
+cglm-0.8.4/docs/source/call.rst
+cglm-0.8.4/docs/source/cam.rst
+cglm-0.8.4/docs/source/cglm-intro.png
+cglm-0.8.4/docs/source/color.rst
+cglm-0.8.4/docs/source/conf.py
+cglm-0.8.4/docs/source/curve.rst
+cglm-0.8.4/docs/source/euler.rst
+cglm-0.8.4/docs/source/features.rst
+cglm-0.8.4/docs/source/frustum.rst
+cglm-0.8.4/docs/source/getting_started.rst
+cglm-0.8.4/docs/source/index.rst
+cglm-0.8.4/docs/source/io.rst
+cglm-0.8.4/docs/source/mat2.rst
+cglm-0.8.4/docs/source/mat3.rst
+cglm-0.8.4/docs/source/mat4.rst
+cglm-0.8.4/docs/source/opengl.rst
+cglm-0.8.4/docs/source/opt.rst
+cglm-0.8.4/docs/source/plane.rst
+cglm-0.8.4/docs/source/project.rst
+cglm-0.8.4/docs/source/quat.rst
+cglm-0.8.4/docs/source/ray.rst
+cglm-0.8.4/docs/source/sphere.rst
+cglm-0.8.4/docs/source/troubleshooting.rst
+cglm-0.8.4/docs/source/util.rst
+cglm-0.8.4/docs/source/vec2-ext.rst
+cglm-0.8.4/docs/source/vec2.rst
+cglm-0.8.4/docs/source/vec3-ext.rst
+cglm-0.8.4/docs/source/vec3.rst
+cglm-0.8.4/docs/source/vec4-ext.rst
+cglm-0.8.4/docs/source/vec4.rst
+cglm-0.8.4/docs/source/version.rst
+cglm-0.8.4/include/
+cglm-0.8.4/include/cglm/
+cglm-0.8.4/include/cglm/affine-mat.h
+cglm-0.8.4/include/cglm/affine.h
+cglm-0.8.4/include/cglm/affine2d.h
+cglm-0.8.4/include/cglm/applesimd.h
+cglm-0.8.4/include/cglm/bezier.h
+cglm-0.8.4/include/cglm/box.h
+cglm-0.8.4/include/cglm/call.h
+cglm-0.8.4/include/cglm/call/
+cglm-0.8.4/include/cglm/call/affine.h
+cglm-0.8.4/include/cglm/call/affine2d.h
+cglm-0.8.4/include/cglm/call/bezier.h
+cglm-0.8.4/include/cglm/call/box.h
+cglm-0.8.4/include/cglm/call/cam.h
+cglm-0.8.4/include/cglm/call/clipspace/
+cglm-0.8.4/include/cglm/call/clipspace/ortho_lh_no.h
+cglm-0.8.4/include/cglm/call/clipspace/ortho_lh_zo.h
+cglm-0.8.4/include/cglm/call/clipspace/ortho_rh_no.h
+cglm-0.8.4/include/cglm/call/clipspace/ortho_rh_zo.h
+cglm-0.8.4/include/cglm/call/clipspace/persp_lh_no.h
+cglm-0.8.4/include/cglm/call/clipspace/persp_lh_zo.h
+cglm-0.8.4/include/cglm/call/clipspace/persp_rh_no.h
+cglm-0.8.4/include/cglm/call/clipspace/persp_rh_zo.h
+cglm-0.8.4/include/cglm/call/clipspace/project_no.h
+cglm-0.8.4/include/cglm/call/clipspace/project_zo.h
+cglm-0.8.4/include/cglm/call/clipspace/view_lh_no.h
+cglm-0.8.4/include/cglm/call/clipspace/view_lh_zo.h
+cglm-0.8.4/include/cglm/call/clipspace/view_rh_no.h
+cglm-0.8.4/include/cglm/call/clipspace/view_rh_zo.h
+cglm-0.8.4/include/cglm/call/curve.h
+cglm-0.8.4/include/cglm/call/ease.h
+cglm-0.8.4/include/cglm/call/euler.h
+cglm-0.8.4/include/cglm/call/frustum.h
+cglm-0.8.4/include/cglm/call/io.h
+cglm-0.8.4/include/cglm/call/mat2.h
+cglm-0.8.4/include/cglm/call/mat3.h
+cglm-0.8.4/include/cglm/call/mat4.h
+cglm-0.8.4/include/cglm/call/plane.h
+cglm-0.8.4/include/cglm/call/project.h
+cglm-0.8.4/include/cglm/call/quat.h
+cglm-0.8.4/include/cglm/call/ray.h
+cglm-0.8.4/include/cglm/call/sphere.h
+cglm-0.8.4/include/cglm/call/vec2.h
+cglm-0.8.4/include/cglm/call/vec3.h
+cglm-0.8.4/include/cglm/call/vec4.h
+cglm-0.8.4/include/cglm/cam.h
+cglm-0.8.4/include/cglm/cglm.h
+cglm-0.8.4/include/cglm/clipspace/
+cglm-0.8.4/include/cglm/clipspace/ortho_lh_no.h
+cglm-0.8.4/include/cglm/clipspace/ortho_lh_zo.h
+cglm-0.8.4/include/cglm/clipspace/ortho_rh_no.h
+cglm-0.8.4/include/cglm/clipspace/ortho_rh_zo.h
+cglm-0.8.4/include/cglm/clipspace/persp.h
+cglm-0.8.4/include/cglm/clipspace/persp_lh_no.h
+cglm-0.8.4/include/cglm/clipspace/persp_lh_zo.h
+cglm-0.8.4/include/cglm/clipspace/persp_rh_no.h
+cglm-0.8.4/include/cglm/clipspace/persp_rh_zo.h
+cglm-0.8.4/include/cglm/clipspace/project_no.h
+cglm-0.8.4/include/cglm/clipspace/project_zo.h
+cglm-0.8.4/include/cglm/clipspace/view_lh.h
+cglm-0.8.4/include/cglm/clipspace/view_lh_no.h
+cglm-0.8.4/include/cglm/clipspace/view_lh_zo.h
+cglm-0.8.4/include/cglm/clipspace/view_rh.h
+cglm-0.8.4/include/cglm/clipspace/view_rh_no.h
+cglm-0.8.4/include/cglm/clipspace/view_rh_zo.h
+cglm-0.8.4/include/cglm/color.h
+cglm-0.8.4/include/cglm/common.h
+cglm-0.8.4/include/cglm/curve.h
+cglm-0.8.4/include/cglm/ease.h
+cglm-0.8.4/include/cglm/euler.h
+cglm-0.8.4/include/cglm/frustum.h
+cglm-0.8.4/include/cglm/io.h
+cglm-0.8.4/include/cglm/mat2.h
+cglm-0.8.4/include/cglm/mat3.h
+cglm-0.8.4/include/cglm/mat4.h
+cglm-0.8.4/include/cglm/plane.h
+cglm-0.8.4/include/cglm/project.h
+cglm-0.8.4/include/cglm/quat.h
+cglm-0.8.4/include/cglm/ray.h
+cglm-0.8.4/include/cglm/simd/
+cglm-0.8.4/include/cglm/simd/arm.h
+cglm-0.8.4/include/cglm/simd/avx/
+cglm-0.8.4/include/cglm/simd/avx/affine.h
+cglm-0.8.4/include/cglm/simd/avx/mat4.h
+cglm-0.8.4/include/cglm/simd/intrin.h
+cglm-0.8.4/include/cglm/simd/neon/
+cglm-0.8.4/include/cglm/simd/neon/affine.h
+cglm-0.8.4/include/cglm/simd/neon/mat2.h
+cglm-0.8.4/include/cglm/simd/neon/mat4.h
+cglm-0.8.4/include/cglm/simd/neon/quat.h
+cglm-0.8.4/include/cglm/simd/sse2/
+cglm-0.8.4/include/cglm/simd/sse2/affine.h
+cglm-0.8.4/include/cglm/simd/sse2/mat2.h
+cglm-0.8.4/include/cglm/simd/sse2/mat3.h
+cglm-0.8.4/include/cglm/simd/sse2/mat4.h
+cglm-0.8.4/include/cglm/simd/sse2/quat.h
+cglm-0.8.4/include/cglm/simd/x86.h
+cglm-0.8.4/include/cglm/sphere.h
+cglm-0.8.4/include/cglm/struct.h
+cglm-0.8.4/include/cglm/struct/
+cglm-0.8.4/include/cglm/struct/affine.h
+cglm-0.8.4/include/cglm/struct/affine2d.h
+cglm-0.8.4/include/cglm/struct/box.h
+cglm-0.8.4/include/cglm/struct/cam.h
+cglm-0.8.4/include/cglm/struct/clipspace/
+cglm-0.8.4/include/cglm/struct/clipspace/ortho_lh_no.h
+cglm-0.8.4/include/cglm/struct/clipspace/ortho_lh_zo.h
+cglm-0.8.4/include/cglm/struct/clipspace/ortho_rh_no.h
+cglm-0.8.4/include/cglm/struct/clipspace/ortho_rh_zo.h
+cglm-0.8.4/include/cglm/struct/clipspace/persp_lh_no.h
+cglm-0.8.4/include/cglm/struct/clipspace/persp_lh_zo.h
+cglm-0.8.4/include/cglm/struct/clipspace/persp_rh_no.h
+cglm-0.8.4/include/cglm/struct/clipspace/persp_rh_zo.h
+cglm-0.8.4/include/cglm/struct/clipspace/view_lh_no.h
+cglm-0.8.4/include/cglm/struct/clipspace/view_lh_zo.h
+cglm-0.8.4/include/cglm/struct/clipspace/view_rh_no.h
+cglm-0.8.4/include/cglm/struct/clipspace/view_rh_zo.h
+cglm-0.8.4/include/cglm/struct/color.h
+cglm-0.8.4/include/cglm/struct/curve.h
+cglm-0.8.4/include/cglm/struct/euler.h
+cglm-0.8.4/include/cglm/struct/frustum.h
+cglm-0.8.4/include/cglm/struct/io.h
+cglm-0.8.4/include/cglm/struct/mat2.h
+cglm-0.8.4/include/cglm/struct/mat3.h
+cglm-0.8.4/include/cglm/struct/mat4.h
+cglm-0.8.4/include/cglm/struct/plane.h
+cglm-0.8.4/include/cglm/struct/project.h
+cglm-0.8.4/include/cglm/struct/quat.h
+cglm-0.8.4/include/cglm/struct/sphere.h
+cglm-0.8.4/include/cglm/struct/vec2-ext.h
+cglm-0.8.4/include/cglm/struct/vec2.h
+cglm-0.8.4/include/cglm/struct/vec3-ext.h
+cglm-0.8.4/include/cglm/struct/vec3.h
+cglm-0.8.4/include/cglm/struct/vec4-ext.h
+cglm-0.8.4/include/cglm/struct/vec4.h
+cglm-0.8.4/include/cglm/types-struct.h
+cglm-0.8.4/include/cglm/types.h
+cglm-0.8.4/include/cglm/util.h
+cglm-0.8.4/include/cglm/vec2-ext.h
+cglm-0.8.4/include/cglm/vec2.h
+cglm-0.8.4/include/cglm/vec3-ext.h
+cglm-0.8.4/include/cglm/vec3.h
+cglm-0.8.4/include/cglm/vec4-ext.h
+cglm-0.8.4/include/cglm/vec4.h
+cglm-0.8.4/include/cglm/version.h
+cglm-0.8.4/include/module.modulemap
+cglm-0.8.4/meson.build
+cglm-0.8.4/meson_options.txt
+cglm-0.8.4/src/
+cglm-0.8.4/src/affine.c
+cglm-0.8.4/src/affine2d.c
+cglm-0.8.4/src/bezier.c
+cglm-0.8.4/src/box.c
+cglm-0.8.4/src/cam.c
+cglm-0.8.4/src/clipspace/
+cglm-0.8.4/src/clipspace/ortho_lh_no.c
+cglm-0.8.4/src/clipspace/ortho_lh_zo.c
+cglm-0.8.4/src/clipspace/ortho_rh_no.c
+cglm-0.8.4/src/clipspace/ortho_rh_zo.c
+cglm-0.8.4/src/clipspace/persp_lh_no.c
+cglm-0.8.4/src/clipspace/persp_lh_zo.c
+cglm-0.8.4/src/clipspace/persp_rh_no.c
+cglm-0.8.4/src/clipspace/persp_rh_zo.c
+cglm-0.8.4/src/clipspace/project_no.c
+cglm-0.8.4/src/clipspace/project_zo.c
+cglm-0.8.4/src/clipspace/view_lh_no.c
+cglm-0.8.4/src/clipspace/view_lh_zo.c
+cglm-0.8.4/src/clipspace/view_rh_no.c
+cglm-0.8.4/src/clipspace/view_rh_zo.c
+cglm-0.8.4/src/config.h
+cglm-0.8.4/src/curve.c
+cglm-0.8.4/src/ease.c
+cglm-0.8.4/src/euler.c
+cglm-0.8.4/src/frustum.c
+cglm-0.8.4/src/io.c
+cglm-0.8.4/src/mat2.c
+cglm-0.8.4/src/mat3.c
+cglm-0.8.4/src/mat4.c
+cglm-0.8.4/src/plane.c
+cglm-0.8.4/src/project.c
+cglm-0.8.4/src/quat.c
+cglm-0.8.4/src/ray.c
+cglm-0.8.4/src/sphere.c
+cglm-0.8.4/src/swift/
+cglm-0.8.4/src/swift/empty.c
+cglm-0.8.4/src/vec2.c
+cglm-0.8.4/src/vec3.c
+cglm-0.8.4/src/vec4.c
+cglm-0.8.4/test/
+cglm-0.8.4/test/CMakeLists.txt
+cglm-0.8.4/test/include/
+cglm-0.8.4/test/include/common.h
+cglm-0.8.4/test/runner.c
+cglm-0.8.4/test/src/
+cglm-0.8.4/test/src/test_affine.h
+cglm-0.8.4/test/src/test_affine2d.h
+cglm-0.8.4/test/src/test_affine_mat.h
+cglm-0.8.4/test/src/test_bezier.c
+cglm-0.8.4/test/src/test_cam.c
+cglm-0.8.4/test/src/test_cam_lh_no.c
+cglm-0.8.4/test/src/test_cam_lh_zo.c
+cglm-0.8.4/test/src/test_cam_rh_no.c
+cglm-0.8.4/test/src/test_cam_rh_zo.c
+cglm-0.8.4/test/src/test_camera.h
+cglm-0.8.4/test/src/test_clamp.c
+cglm-0.8.4/test/src/test_common.c
+cglm-0.8.4/test/src/test_common.h
+cglm-0.8.4/test/src/test_euler.c
+cglm-0.8.4/test/src/test_mat2.h
+cglm-0.8.4/test/src/test_mat3.h
+cglm-0.8.4/test/src/test_mat4.h
+cglm-0.8.4/test/src/test_plane.h
+cglm-0.8.4/test/src/test_project.h
+cglm-0.8.4/test/src/test_quat.h
+cglm-0.8.4/test/src/test_ray.h
+cglm-0.8.4/test/src/test_struct.c
+cglm-0.8.4/test/src/test_vec2.h
+cglm-0.8.4/test/src/test_vec3.h
+cglm-0.8.4/test/src/test_vec4.h
+cglm-0.8.4/test/src/tests.c
+cglm-0.8.4/test/tests.h
+cglm-0.8.4/win/
+cglm-0.8.4/win/.gitignore
+cglm-0.8.4/win/build.bat
+cglm-0.8.4/win/cglm-test.vcxproj
+cglm-0.8.4/win/cglm-test.vcxproj.filters
+cglm-0.8.4/win/cglm.sln
+cglm-0.8.4/win/cglm.vcxproj
+cglm-0.8.4/win/cglm.vcxproj.filters
+-- The C compiler identification is GNU 11.2.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Setting build type to 'Release' as none was specified.
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /tmp/SBo/cglm-0.8.4/build
+[  2%] Building C object CMakeFiles/cglm.dir/src/euler.c.o
+[  5%] Building C object CMakeFiles/cglm.dir/src/affine.c.o
+[  8%] Building C object CMakeFiles/cglm.dir/src/io.c.o
+[ 11%] Building C object CMakeFiles/cglm.dir/src/quat.c.o
+[ 14%] Building C object CMakeFiles/cglm.dir/src/cam.c.o
+[ 17%] Building C object CMakeFiles/cglm.dir/src/vec2.c.o
+[ 20%] Building C object CMakeFiles/cglm.dir/src/vec3.c.o
+[ 23%] Building C object CMakeFiles/cglm.dir/src/vec4.c.o
+[ 26%] Building C object CMakeFiles/cglm.dir/src/mat2.c.o
+[ 29%] Building C object CMakeFiles/cglm.dir/src/mat3.c.o
+[ 32%] Building C object CMakeFiles/cglm.dir/src/mat4.c.o
+[ 35%] Building C object CMakeFiles/cglm.dir/src/plane.c.o
+[ 38%] Building C object CMakeFiles/cglm.dir/src/frustum.c.o
+[ 41%] Building C object CMakeFiles/cglm.dir/src/box.c.o
+[ 44%] Building C object CMakeFiles/cglm.dir/src/project.c.o
+[ 47%] Building C object CMakeFiles/cglm.dir/src/sphere.c.o
+[ 50%] Building C object CMakeFiles/cglm.dir/src/ease.c.o
+[ 52%] Building C object CMakeFiles/cglm.dir/src/curve.c.o
+[ 55%] Building C object CMakeFiles/cglm.dir/src/bezier.c.o
+[ 58%] Building C object CMakeFiles/cglm.dir/src/ray.c.o
+[ 61%] Building C object CMakeFiles/cglm.dir/src/affine2d.c.o
+[ 64%] Building C object CMakeFiles/cglm.dir/src/clipspace/persp_lh_zo.c.o
+[ 67%] Building C object CMakeFiles/cglm.dir/src/clipspace/persp_rh_zo.c.o
+[ 70%] Building C object CMakeFiles/cglm.dir/src/clipspace/persp_lh_no.c.o
+[ 73%] Building C object CMakeFiles/cglm.dir/src/clipspace/persp_rh_no.c.o
+[ 76%] Building C object CMakeFiles/cglm.dir/src/clipspace/ortho_lh_zo.c.o
+[ 79%] Building C object CMakeFiles/cglm.dir/src/clipspace/ortho_rh_zo.c.o
+[ 82%] Building C object CMakeFiles/cglm.dir/src/clipspace/ortho_lh_no.c.o
+[ 85%] Building C object CMakeFiles/cglm.dir/src/clipspace/ortho_rh_no.c.o
+[ 88%] Building C object CMakeFiles/cglm.dir/src/clipspace/view_lh_zo.c.o
+[ 91%] Building C object CMakeFiles/cglm.dir/src/clipspace/view_rh_zo.c.o
+[ 94%] Building C object CMakeFiles/cglm.dir/src/clipspace/view_lh_no.c.o
+[ 97%] Building C object CMakeFiles/cglm.dir/src/clipspace/view_rh_no.c.o
+[100%] Linking C shared library libcglm.so
+[100%] Built target cglm
+Consolidate compiler generated dependencies of target cglm
+[100%] Built target cglm
+Install the project...
+-- Install configuration: "Release"
+-- Installing: /tmp/SBo/package-cglm/usr/local/lib64/libcglm.so.0.8.4
+-- Installing: /tmp/SBo/package-cglm/usr/local/lib64/libcglm.so.0
+-- Installing: /tmp/SBo/package-cglm/usr/local/lib64/libcglm.so
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/common.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/ray.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/vec2.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/vec3.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/vec2.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/vec3.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/clipspace
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/clipspace/view_lh_zo.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/clipspace/persp_lh_no.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/clipspace/view_rh_zo.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/clipspace/ortho_lh_zo.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/clipspace/persp_rh_no.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/clipspace/ortho_lh_no.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/clipspace/ortho_rh_zo.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/clipspace/view_rh_no.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/clipspace/view_lh_no.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/clipspace/ortho_rh_no.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/clipspace/persp_lh_zo.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/clipspace/persp_rh_zo.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/mat4.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/plane.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/vec2-ext.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/box.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/curve.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/frustum.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/affine.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/euler.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/vec3-ext.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/cam.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/vec4-ext.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/project.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/color.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/mat2.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/io.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/mat3.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/affine2d.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/vec4.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/quat.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct/sphere.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/version.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/clipspace
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/clipspace/view_lh_zo.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/clipspace/persp_lh_no.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/clipspace/view_rh_zo.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/clipspace/ortho_lh_zo.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/clipspace/persp_rh_no.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/clipspace/project_no.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/clipspace/ortho_lh_no.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/clipspace/persp.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/clipspace/ortho_rh_zo.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/clipspace/project_zo.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/clipspace/view_lh.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/clipspace/view_rh_no.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/clipspace/view_lh_no.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/clipspace/view_rh.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/clipspace/ortho_rh_no.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/clipspace/persp_lh_zo.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/clipspace/persp_rh_zo.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/simd
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/simd/neon
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/simd/neon/mat4.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/simd/neon/affine.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/simd/neon/mat2.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/simd/neon/quat.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/simd/sse2
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/simd/sse2/mat4.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/simd/sse2/affine.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/simd/sse2/mat2.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/simd/sse2/mat3.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/simd/sse2/quat.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/simd/x86.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/simd/arm.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/simd/intrin.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/simd/avx
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/simd/avx/mat4.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/simd/avx/affine.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/ease.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/applesimd.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/mat4.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/plane.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/vec2-ext.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/types-struct.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/box.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/util.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/ray.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/vec2.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/vec3.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/clipspace
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/clipspace/view_lh_zo.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/clipspace/persp_lh_no.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/clipspace/view_rh_zo.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/clipspace/ortho_lh_zo.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/clipspace/persp_rh_no.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/clipspace/project_no.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/clipspace/ortho_lh_no.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/clipspace/ortho_rh_zo.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/clipspace/project_zo.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/clipspace/view_rh_no.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/clipspace/view_lh_no.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/clipspace/ortho_rh_no.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/clipspace/persp_lh_zo.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/clipspace/persp_rh_zo.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/ease.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/mat4.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/plane.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/box.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/curve.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/bezier.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/frustum.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/affine.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/euler.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/cam.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/project.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/mat2.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/io.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/mat3.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/affine2d.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/vec4.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/quat.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call/sphere.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/curve.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/call.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/bezier.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/frustum.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/affine.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/euler.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/vec3-ext.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/cam.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/vec4-ext.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/types.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/project.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/color.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/mat2.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/struct.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/io.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/mat3.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/affine2d.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/affine-mat.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/vec4.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/cglm.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/quat.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/include/cglm/sphere.h
+-- Installing: /tmp/SBo/package-cglm/usr/local/lib64/cmake/cglm/cglmConfig.cmake
+-- Installing: /tmp/SBo/package-cglm/usr/local/lib64/cmake/cglm/cglmConfig-release.cmake
+-- Installing: /tmp/SBo/package-cglm/usr/local/lib64/pkgconfig/cglm.pc
+
+Slackware package maker, version 3.14159265.
+
+Searching for symbolic links:
+usr/local/lib64/libcglm.so	libcglm.so.0
+usr/local/lib64/libcglm.so.0	libcglm.so.0.8.4
+
+Making symbolic link creation script:
+( cd usr/local/lib64 ; rm -rf libcglm.so )
+( cd usr/local/lib64 ; ln -sf libcglm.so.0 libcglm.so )
+( cd usr/local/lib64 ; rm -rf libcglm.so.0 )
+( cd usr/local/lib64 ; ln -sf libcglm.so.0.8.4 libcglm.so.0 )
+
+It is recommended that you make these lines your new installation script.
+
+Would you like to make this stuff the install script for this package
+and remove the symbolic links ([y]es, [n]o)? y
+
+
+Removing symbolic links:
+removed './usr/local/lib64/libcglm.so.0'
+removed './usr/local/lib64/libcglm.so'
+
+Creating your new ./install/doinst.sh...
+
+This next step is optional - you can set the directories in your package
+to some sane permissions. If any of the directories in your package have
+special permissions, then DO NOT reset them here!
+
+Would you like to reset all directory permissions to 755 (drwxr-xr-x) and
+directory ownerships to root.root ([y]es, [n]o)? n
+
+Creating Slackware package:  /tmp/cglm-0.8.4-x86_64-1_SBo.tgz
+
+
+Slackware package /tmp/cglm-0.8.4-x86_64-1_SBo.tgz created.
+
