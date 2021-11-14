@@ -1,0 +1,7 @@
+
+ik8utils is a utility that controls the system temperature of some
+Dell laptops via the system fans. It was developed for the I8000 
+series, but now supports more dell products. It was not implemented 
+based on Dell documentation so it is not guarnteed to work on all
+models. Dell did not contribute to this project with documentation.
+For information on the 
