@@ -1,2 +1,5 @@
 # exclude emacs backup files
 **~
+/*.tar.gz
+/*.txz
+/*.tar.xz
