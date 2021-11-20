@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Slackware build script for cglm
+# Slackware build script for tilp
 
 # Copyright 2021 Brian Hoffpauir TX, USA
 # All rights reserved.
@@ -22,16 +22,10 @@
 #  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-PRGNAM=cglm
+PRGNAM=tilp
 VERSION=${VERSION:-0.8.4}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_SBo}
-
-# OPTIONS
-CGLM_SHARED=${CGLM_SHARED:-ON}
-CGLM_STATIC=${CGLM_STATIC:-OFF}
-CGLM_USE_C99=${CGLM_USE_C99:-OFF}
-CGLM_USE_TEST=${CGLM_USE_TEST:-OFF}
 
 if [ -z "$ARCH" ]; then
   case "$(uname -m)" in

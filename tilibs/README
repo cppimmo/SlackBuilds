@@ -1,0 +1,28 @@
+The tilibs library collection is a part of the TiLP project and constitutes with
+the other libraries a complete framework for developping linking and/or TI
+calculator files oriented applications.
+
+libticables
+===========
+This library is designed to handle the different link cables designed for TI's
+graphing calculators.
+
+libticalcs
+==========
+This library creates all the functions needed to communicate with Texas
+Instruments graphing calculators.
+Supported calculators and formats:
+- TI8x calculators: TI73, 82, 83, TI83+, 85 and 86 (with 2 sub-classes:
+    TI73/83+ & 85/86).
+- TI9x calculators: TI89, 92, 92+ and V200PLT.
+
+libticonv
+=========
+This library is capable of conversions between TI charsets and UTF-8 / UTF-15
+charsets but uses UTF-16 natively.
+
+libtifiles
+==========
+This library is capable of reading/modifying/writing TI formatted files. It
+can also group/ungroup files.
+
