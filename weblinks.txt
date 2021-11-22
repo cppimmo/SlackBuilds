@@ -1,0 +1,17 @@
+This file contains a list of relevant webpages for each SlackBuild.
+cglm:
+ - https://github.com/recp/cglm
+ - https://cglm.readthedocs.io/en/latest/?badge=latest
+
+tilibs:
+ - https://github.com/debrouxl/tilibs/
+ - http://lpg.ticalc.org/prj_tilp
+
+tilp_and_gfm:
+ - https://github.com/debrouxl/tilp_and_gfm/
+ - http://lpg.ticalc.org/prj_tilp/
+
+xwallpaper:
+ - https://github.com/stoeckmann/xwallpaper
+ - https://github.com/stoeckmann/xwallpaper/releases
+
