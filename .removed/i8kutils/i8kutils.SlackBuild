@@ -23,7 +23,7 @@
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 PRGNAM=i8kutils
-VERSION=${VERSION:-0.8.4}
+VERSION=${VERSION:-1.43}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_SBo}
 
@@ -55,7 +55,7 @@ else
 fi
 
 # source download has a 'v' prefix
-mv v$VERSION.tar.gz $PRGNAM-$VERSION.tar.gz # rename source archive
+# mv v$VERSION.tar.gz $PRGNAM-$VERSION.tar.gz # rename source archive
 
 set -e # stop script execution upon error
 rm -rf $PKG # delete existing package directory if present
