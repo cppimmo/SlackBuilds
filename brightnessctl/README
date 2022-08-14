@@ -1,0 +1,6 @@
+brightnessctl is a program that allows you to read and control device
+brightness. Devices, by default, include backlight LEDs. If omitted, the first
+found device is selected.
+
+It can also preserve current brightness before applying the operation.
+
