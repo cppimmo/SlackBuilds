@@ -1,0 +1,69 @@
+#!/bin/sh
+#
+# mega-cmd-server:
+#
+# Description:
+#
+# Process Name: mega-cmd-server
+#
+
+prefix=/usr
+exec_prefix=/usr
+bindir=${exec_prefix}/bin
+
+MEGA_CMD_SERVER_BIN=${bindir}/mega-cmd-server
+
+# Sanity checks.
+[ -x $MEGA_CMD_SERVER_BIN ] || exit 0
+
+PIDFILE=/var/run/NetworkManager/NetworkManager.pid
+
+mcs_start() {	
+	echo "Starting mega-cmd-server:  $MEGA_CMD_SERVER_BIN"
+	nohup $MEGA_CMD_SERVER_BIN &
+}
+
+mcs_status() {
+	local result=`mega-cmd-server`
+	if [ $result -eq 254 ]; then
+		return 1
+	fi
+}
+
+mcs_stop() {
+	echo -en "Stopping mega-cmd-server: "
+	killall $MEGA_CMD_SERVER_BIN &>/dev/null
+	echo "stopped";
+	sleep 3
+}
+
+mcs_restart() {
+	nm_stop
+	nm_start
+}
+
+case "$1" in
+'start')
+	if ( ! mcs_status ); then
+		mcs_start
+	else
+		echo "mega-cmd-server is already running (will not start it twice)."
+	fi
+	;;
+'stop')
+	mcs_stop
+	;;
+'restart')
+	mcs_restart
+	;;
+'status')
+	if ( mcs_status ); then
+		echo "mega-cmd-server is currently running"
+	else
+		echo "mega-cmd-server is not running."
+	fi
+	;;
+*)
+	echo "usage $0 start|stop|status|restart"
+esac
+
