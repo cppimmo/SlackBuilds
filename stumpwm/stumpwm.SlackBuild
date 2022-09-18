@@ -28,6 +28,7 @@ BUILD=${BUILD:-1}
 TAG=${TAG:-_SBo}
 
 # OPTIONS
+USERNAME=${USERNAME:-root}
 USE_SBCL=${USE_SBCL:-yes}
 SBCL_HOME=${SBCL_HOME:-/usr/lib64/sbcl}
 
@@ -77,17 +78,18 @@ find -L . \
   -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
 
 # Ensure that SBCL can locate the sbcl.core
+# TODO: Use the /etc/profile.d/sbcl.sh
 export SBCL_HOME="$SBCL_HOME"
 
 # curl -O https://beta.quicklisp.org/quicklisp.lisp
 # sbcl --load load-quicklisp.lisp
 
-./autogen.sh
-./configure
+su -c $USERNAME './autogen.sh'
+su -c $USERNAME './configure'
 
 CFLAGS="$SLKCFLAGS" \
 CXXFLAGS="$SLKCFLAGS" \
-make
+su -c $USERNAME 'make'
 make install PREFIX=/usr/local DESTDIR=$PKG
 
 mkdir -p $PKG/etc/X11/xinit
