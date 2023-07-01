@@ -72,14 +72,14 @@ fi
 
 set -e
 
-# Source download has a 'v' prefix; rename source archive
-mv v$VERSION.tar.gz $PRGNAM-$VERSION.tar.gz
+TARNAM=v$VERSION.tar.gz # Source download has a 'v' prefix
 
 rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
 cd $TMP # Move into package directory
-rm -rf $PRGNAM-$VERSION
-tar xvf $CWD/$PRGNAM-$VERSION.tar.gz # Unpack source
+rm -rf $PRGNAM-$VERSION # Erase prior source
+mkdir -p $TMP/$PRGNAM-$VERSION # Recreate appropriately named source dir
+tar xvf $CWD/$TARNAM --strip-components=1 -C $TMP/$PRGNAM-$VERSION # Unpack source
 cd $PRGNAM-$VERSION
 chown -R root:root . # Give everything to root user/group
 find -L . \
