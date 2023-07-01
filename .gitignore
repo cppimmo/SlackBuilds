@@ -1,6 +1,9 @@
 # exclude emacs backup files
 **~
 /build/**
-/*.tar.gz
-/*.txz
-/*.tar.xz
+*.tar.gz
+*.tgz
+*.tar.bz2
+*.tbz2
+*.txz
+*.tar.xz

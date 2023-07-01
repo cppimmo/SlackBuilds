@@ -1,8 +1,10 @@
-#!/bin/sh
+#!/bin/bash
+#
+# ex:set ai shiftwidth=4 inputtab=spaces smarttab noautotab:
 
 # Slackware build script for cglm
 
-# Copyright 2021 Brian Hoffpauir, USA
+# Copyright 2023 Brian Hoffpauir, USA
 # All rights reserved.
 #
 # Redistribution and use of this script, with or without modification, is
@@ -11,10 +13,6 @@
 # 1. Redistributions of this script must retain the above copyright
 #    notice, this list of conditions and the following disclaimer.
 #
-# 2. Redistributions in binary form must reproduce the above copyright notice,
-#    this list of conditions and the following disclaimer in the documentation
-#    and/or other materials provided with the distribution.
-#   
 #  THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED
 #  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
 #  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO
@@ -26,16 +24,20 @@
 #  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+cd $(dirname $0) ; CWD=$(pwd)
+
 PRGNAM=cglm
-VERSION=${VERSION:-0.8.4}
+VERSION=${VERSION:-0.9.0}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_SBo}
+PKGTYPE=${PKGTYPE:-tgz}
 
 # OPTIONS
 CGLM_SHARED=${CGLM_SHARED:-ON}
 CGLM_STATIC=${CGLM_STATIC:-OFF}
 CGLM_USE_C99=${CGLM_USE_C99:-OFF}
 CGLM_USE_TEST=${CGLM_USE_TEST:-OFF}
+CGLM_BUILD_DOCS=${CGLM_BUILD_DOCS:-NO} # YES or NO
 
 if [ -z "$ARCH" ]; then
   case "$(uname -m)" in
@@ -45,7 +47,11 @@ if [ -z "$ARCH" ]; then
   esac
 fi
 
-CWD=$(pwd)
+if [ ! -z "${PRINT_PACKAGE_NAME}" ]; then
+  echo "$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.$PKGTYPE"
+  exit 0
+fi
+
 TMP=${TMP:-/tmp/SBo}
 PKG=$TMP/package-$PRGNAM
 OUTPUT=${OUTPUT:-/tmp}
@@ -64,56 +70,61 @@ else
   LIBDIRSUFFIX=""
 fi
 
-# source download has a 'v' prefix
-mv v$VERSION.tar.gz $PRGNAM-$VERSION.tar.gz # rename source archive
+set -e
 
-set -e # stop script execution upon error
-rm -rf $PKG # delete existing package directory if present
+# Source download has a 'v' prefix; rename source archive
+mv v$VERSION.tar.gz $PRGNAM-$VERSION.tar.gz
+
+rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
-cd $TMP # move into package directory
+cd $TMP # Move into package directory
 rm -rf $PRGNAM-$VERSION
-tar xvf $CWD/$PRGNAM-$VERSION.tar.gz # unpack source
+tar xvf $CWD/$PRGNAM-$VERSION.tar.gz # Unpack source
 cd $PRGNAM-$VERSION
-# give everything to root user/group
-chown -R root:root .
+chown -R root:root . # Give everything to root user/group
 find -L . \
  \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
   -o -perm 511 \) -exec chmod 755 {} \; -o \
  \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
   -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
 
-CFLAGS="$SLKCFLAGS" \
-CXXFLAGS="$SLKCFLAGS" \
+mkdir -p build
+cd build
+cmake -G "Unix Makefiles" \
+      -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+      -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+      -DCMAKE_INSTALL_PREFIX=/usr \
+      -DLIB_SUFFIX=${LIBDIRSUFFIX} \
+      -DCMAKE_BUILD_TYPE=Release \
+	  -DCGLM_SHARED=$CGLM_SHARED \
+	  -DCGLM_STATIC=$CGLM_STATIC \
+	  -DCGLM_USE_C99=$CGLM_USE_C99 \
+	  -DCGLM_USE_TEST=$CGLM_USE_TEST ..
 
-mkdir ./build
-cd ./build
-cmake -G "Unix Makefiles" .. -DCGLM_SHARED=$CGLM_SHARED \
-	 -DCGLM_STATIC=$CGLM_STATIC -DCGLM_USE_C99=$CGLM_USE_C99 \
-	 -DCGLM_USE_TEST=$CGLM_USE_TEST
 make
-make install PREFIX=/usr/local DESTDIR=$PKG
-	  
-# sed -i "s|share/man|man|" Makefile
-# sed -i "s|share/doc/xwallpaper|doc/xwallpaper-$VERSION|" Makefile
+make install/strip DESTDIR=$PKG
 
-# make PREFIX=/usr
-# make PREFIX=/usr DESTDIR=$PKG
+rm -f $PKG/{,usr/}lib${LIBDIRSUFFIX}/*.la
+
+if egrep -iq 'yes' <<< $CGLM_BUILD_DOCS; then
+  cd $TMP/$PRGNAM-$VERSION/docs
+
+  sphinx-build source build
+fi
 
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
 
-# may need to be set to /usr/local/share/man in both places
-#find $PKG/usr/local/share/man1 -type f -exec gzip -9 {} \;
-#for i in $( find $PKG/usr/local/share/man1 -type l ); do
-#  ln -s $( readlink $i ).gz $i.gz
-#  rm $i
-#done
-
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
+if egrep -iq 'yes' <<< $CGLM_BUILD_DOCS; then
+  cp -a \
+	 $TMP/$PRGNAM-$VERSION/docs/build/. \
+	 $PKG/usr/doc/$PRGNAM-$VERSION
+fi
 cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
 
 mkdir -p $PKG/install
 cat $CWD/slack-desc > $PKG/install/slack-desc
 
 cd $PKG
-/sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-tgz}
+/sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.$PKGTYPE

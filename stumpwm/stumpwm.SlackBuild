@@ -56,7 +56,7 @@ elif [ "$ARCH" = "x86_64" ]; then
   LIBDIRSUFFIX="64"
 else
   SLKCFLAGS="-O2"
-  LIBDIRSUFFIX=""
+ LIBDIRSUFFIX=""
 fi
 
 # source download has a 'v' prefix

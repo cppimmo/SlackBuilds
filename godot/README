@@ -1,0 +1,38 @@
+Godot Engine is a feature-packed, cross-platform game engine to create
+2D and 3D games from a unified interface. It provides a comprehensive
+set of common tools, so that users can focus on making games without
+having to reinvent the wheel. Games can be exported with one click to
+a number of platforms, including the major desktop platforms (Linux,
+macOS, Windows), mobile platforms (Android, iOS), as well as Web-based
+platforms and consoles.
+
+Godot is completely free and open source under the permissive MIT
+license. No strings attached, no royalties, nothing. Users' games are
+theirs, down to the last line of engine code. Godot's development is
+fully independent and community-driven, empowering users to help shape
+their engine to match their expectations. It is supported by the Godot
+Foundation not-for-profit.
+
+The Godot Engine uses the Scons build system which is included in a
+Slackware installation.
+
+To use Clang instead of GCC:
+USE_LLVM=yes LINKER=lld ./godot.SlackBuild
+
+To enable link-time optimization (GCC only; requires 7GB of unused RAM):
+USE_LTO=yes ./godot.SlackBuild
+
+To use optional libudev dependency:
+USE_UDEV=yes ./godot.SlackBuild
+
+To build documentation as well (delimit using commas):
+DOC=doxygen,rst,rstjs ./godot.SlackBuild
+
+To build Godot for production use (PRODUCTION=yes enables LTO):
+TARGET=template_release PRODUCTION=yes ./godot.SlackBuild
+
+Available targets include:
+  editor (Default build with editor, optimized, with debugging code ()
+  Use for running projects:
+    template_debug (Build with C++ debugging symbols, no editor)
+    template_release (Build without symbols, no editor)
