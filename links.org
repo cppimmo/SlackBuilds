@@ -1,0 +1,39 @@
+#+TITLE: Brian's SlackBuilds - Useful Links
+#+AUTHOR: Brian Hoffpauir
+#+DATE: <2023-07-01 Sat>
+#+EMAIL: bhoffpauirmail@gmail.com
+#+DESCRIPTION: Brian's SlackBuilds useful links.
+#+LANGUAGE: en
+#+OPTIONS: toc:1
+
+This document contains a list of relevant webpages for each SlackBuild.
+
+* cglm
+
+- [[https://github.com/recp/cglm]]
+- [[https://cglm.readthedocs.io/en/latest/?badge=latest]]
+
+* godot
+
+- [[https://godotengine.org/]]
+- [[https://github.com/godotengine/godot]]
+- [[https://docs.godotengine.org/en/stable/]]
+
+* sdorfehs
+
+- [[https://github.com/jcs/sdorfehs]]
+- [[https://github.com/jcs/sdorfehs/wiki]]
+
+#+BEGIN_COMMENT
+tilibs:
+ - https://github.com/debrouxl/tilibs/
+ - http://lpg.ticalc.org/prj_tilp
+
+tilp_and_gfm:
+ - https://github.com/debrouxl/tilp_and_gfm/
+ - http://lpg.ticalc.org/prj_tilp/
+
+xwallpaper:
+ - https://github.com/stoeckmann/xwallpaper
+ - https://github.com/stoeckmann/xwallpaper/releases
+#+END_COMMENT

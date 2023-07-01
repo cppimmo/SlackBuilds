@@ -1,0 +1,27 @@
+#+TITLE: Brian's SlackBuilds TODO
+#+AUTHOR: Brian Hoffpauir
+#+DATE: <2023-07-01 Sat>
+#+EMAIL: bhoffpauirmail@gmail.com
+#+DESCRIPTION: TODO list for Brian's SlackBuilds.
+#+LANGUAGE: en
+#+OPTIONS: toc:1
+
+* cglm
+
+** DONE Support option for building Sphinx documentation
+
+* godot
+
+** DONE Add application .desktop file
+
+** TODO Add options and optional dependency for supporting .NET C#
+
+** TODO Add options for supporting export template builds
+
+** DONE Add options for building documentation
+
+* sdorfehs
+
+** DONE Install xinitrc.sdorfehs to appropriate location
+
+# ** TODO Create SlackBuild for TiLP (TI Linking Program) and associated libraries.
