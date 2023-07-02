@@ -6,7 +6,7 @@
 #+LANGUAGE: en
 #+OPTIONS: toc:2
 
-A repository for SlackBuild scripts that I create.  SlackBuilds are scripts used to build software packages for Slackware systems.  Dependencies are listed in the package-name.info file in ~REQUIRES=""~ and must be retrieved manually.
+A repository for SlackBuild scripts that I create.  SlackBuilds are scripts used to build software packages for Slackware systems.  Dependencies are listed in the package-name.info file in the =REQUIRES= variable and must be retrieved manually.
 
 * SlackBuilds
 
@@ -18,10 +18,10 @@ A repository for SlackBuild scripts that I create.  SlackBuilds are scripts used
 SlackBuilds that have been submitted and approved for inclusion in the /SlackBuilds.org/ project under grouped under the *Official* list with a link to their corresponding page on the [[https://slackbuilds.org/][SlackBuilds]] website.
 
 ** Official
-#+END_COMMENT
 
 - cglm ([[https://slackbuilds.org/repository/15.0/][SlackBuilds.org - cglm]])
 - sdorfehs ([[https://slackbuilds.org/repository/15.0/][SlackBuilds.org - sdorfehs]])
+#+END_COMMENT
 
 #+BEGIN_COMMENT
 ** Unofficial
@@ -33,22 +33,43 @@ SlackBuilds that have been submitted and approved for inclusion in the /SlackBui
 
 You can build all of my SlackBuilds in bulk with the following commands:
 
-#+BEGIN_SRC bash
+#+BEGIN_SRC shell
 $ chmod +x distribute.sh
 $ sudo ./distribute.sh --build-all
 #+END_SRC
 
+To build a single SlackBuild
+
+#+BEGIN_SRC shell
+$ cd /slackbuild/directory
+$ source ./prgnam.info
+$ wget $DOWNLOAD
+
+$ sudo bash ./prgnam.SlackBuild
+$ # or
+$ chmod +x ./prgnam.SlackBuild
+$ sudo ./prgnam.SlackBuild
+#+END_SRC
+
+If you need to supply options shown in the README of a SlackBuild:
+
+#+BEGIN_SRC shell
+$ su -
+$ cd /your/SlackBuild/directory/ # Replace this with the directory your SlackBuild is located
+$ OPTION=VALUE ANOTHER_OPTION=VALUE bash ./prgnam.SlackBuild
+#+END_SRC
+
 This will place the package tarballs in a directory named /build/.  It will also build every package, and you can install them using the following commands:
 
-#+BEGIN_SRC bash
+#+BEGIN_SRC shell
 $ sudo /sbin/installpkg whatever_package-x86_64-1_SBo.tgz
-	# or
+$ # or
 $ sudo /sbin/upgradepkg --install-new whatever_package-x86_64-1_SBo.tgz
 #+END_SRC
 
 To uninstall a package:
 
-#+BEGIN_SRC bash
+#+BEGIN_SRC shell
 $ sudo /sbin/removepkg whatever_package # Note that you needn't specify the version
 #+END_SRC
 
