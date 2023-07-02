@@ -82,7 +82,7 @@ For more help see the following webpages:
   
 * Disclaimer
 
-My SlackBuilds that have been approved and included in the /SlackBuilds.org/ project use the _SBo tag, while those that have not use the =_Brian= tag.  It should be noted that, while some of these SlackBuilds use the =_SBo= tag, the official download source is preferred and they can be [[https://slackbuilds.org/faq/#asc][verified]].  You can find those links in the [[*SlackBuilds][SlackBuilds]] section of this document.
+My SlackBuilds that have been approved and included in the /SlackBuilds.org/ project use the _SBo tag, while those that have not use the =_Brian= tag.  It should be noted that, while some of these SlackBuilds use the =_SBo= tag, the official download source is preferred and they can be [[https://slackbuilds.org/faq/#asc][verified]].  You can find those links in the [[file:README.org::*SlackBuilds][SlackBuilds]] section of this document.
 
 Note that SlackBuilds with =_Brian= tag are not official; meaning they are not endorsed by the /SlackBuilds.org/ project or Slackare.  Install at your own risk.
 
