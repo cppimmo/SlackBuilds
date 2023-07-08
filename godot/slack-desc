@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.
+# Line up the first '|' above the ':' following the base package name, and
+# the '|' on the right side marks the last column you can put a character in.
+# You must make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':' except on otherwise blank lines.
+
+     |-----handy-ruler------------------------------------------------------|
+godot: godot (Free and open source 2D and 3D game engine)
+godot:
+godot: Godot Engine is a feature-packed, cross-platform game engine to
+godot: create 2D and 3D games from a unified interface. It provides a
+godot: comprehensive set of common tools, so that users can focus on making
+godot: games without having to reinvent the wheel. Games can be exported
+godot: with one click to a number of platforms, including the major desktop
+godot: platforms (Linux, macOS, Windows), mobile platforms (Android, iOS),
+godot: as well as Web-based platforms and consoles. Godot is completely free
+godot: and open source under the permissive MIT license.
+godot:

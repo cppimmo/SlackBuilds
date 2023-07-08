@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=Godot Engine
+Exec=godot.linuxbsd.editor.x86_64
+Icon=godot

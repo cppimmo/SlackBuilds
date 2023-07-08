@@ -14,6 +14,6 @@ cglm: math operations stay fast while remaining easy to write. gclm is
 cglm: based on the GLM math library that has bindings for the C++ program-
 cglm: ming language. The library is primarily used for operations with the
 cglm: OpenGL graphics API.
-cglm: 
+cglm:
 cglm: Homepage: https://github.com/recp/cglm
 cglm:

@@ -1,0 +1,37 @@
+#+TITLE: Brian's SlackBuilds TODO
+#+AUTHOR: Brian Hoffpauir
+#+DATE: <2023-07-01 Sat>
+#+EMAIL: bhoffpauirmail@gmail.com
+#+DESCRIPTION: TODO list for Brian's SlackBuilds.
+#+LANGUAGE: en
+#+OPTIONS: toc:1 html-postamble:nil
+
+* cglm
+
+** DONE Support option for building Sphinx documentation
+
+* godot
+
+** TODO Add application .desktop file
+
+** TODO Create doinst.sh to refresh app icon cache
+
+** TODO Add options and optional dependency for supporting .NET C#
+
+** TODO Add options for supporting export template builds
+
+** DONE Add options for building documentation
+
+* JSBSim
+
+** DONE Find correct Python 3 executable
+
+** TODO Support MATLAB S-Function
+
+** TODO Set lib directory arch suffix without using patches
+
+* sdorfehs
+
+** DONE Install xinitrc.sdorfehs to appropriate location
+
+# ** TODO Create SlackBuild for TiLP (TI Linking Program) and associated libraries.

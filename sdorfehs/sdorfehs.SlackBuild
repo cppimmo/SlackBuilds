@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
 # Slackware build script for sdorfehs
 
-# Copyright 2021 Brian Hoffpauir, USA
+# Copyright 2023 Brian Hoffpauir, USA
 # All rights reserved.
 #
 # Redistribution and use of this script, with or without modification, is
@@ -11,10 +11,6 @@
 # 1. Redistributions of this script must retain the above copyright
 #    notice, this list of conditions and the following disclaimer.
 #
-# 2. Redistributions in binary form must reproduce the above copyright notice,
-#    this list of conditions and the following disclaimer in the documentation
-#    and/or other materials provided with the distribution.
-#   
 #  THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED
 #  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
 #  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO
@@ -26,23 +22,27 @@
 #  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 #  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+cd $(dirname $0) ; CWD=$(pwd)
+
 PRGNAM=sdorfehs
-VERSION=${VERSION:-1.4}
+VERSION=${VERSION:-1.5}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_SBo}
-
-# OPTIONS
-CGLM_SHARED=${CGLM_SHARED:-ON}
+PKGTYPE=${PKGTYPE:-tgz}
 
 if [ -z "$ARCH" ]; then
-  case "$(uname -m)" in
+  case "$( uname -m )" in
     i?86) ARCH=i586 ;;
     arm*) ARCH=arm ;;
-    *) ARCH=$(uname -m) ;;
+       *) ARCH=$( uname -m ) ;;
   esac
 fi
 
-CWD=$(pwd)
+if [ ! -z "${PRINT_PACKAGE_NAME}" ]; then
+  echo "$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.$PKGTYPE"
+  exit 0
+fi
+
 TMP=${TMP:-/tmp/SBo}
 PKG=$TMP/package-$PRGNAM
 OUTPUT=${OUTPUT:-/tmp}
@@ -56,23 +56,26 @@ elif [ "$ARCH" = "i686" ]; then
 elif [ "$ARCH" = "x86_64" ]; then
   SLKCFLAGS="-O2 -fPIC"
   LIBDIRSUFFIX="64"
+elif [ "$ARCH" = "aarch64" ]; then
+  SLKCFLAGS="-O2 -fPIC"
+  LIBDIRSUFFIX="64"
 else
   SLKCFLAGS="-O2"
   LIBDIRSUFFIX=""
 fi
 
-# source download has a 'v' prefix
-mv v$VERSION.tar.gz $PRGNAM-$VERSION.tar.gz # rename source archive
+set -e
 
-set -e # stop script execution upon error
-rm -rf $PKG # delete existing package directory if present
+TARNAM=v$VERSION.tar.gz # Source download has a 'v' prefix
+
+rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
-cd $TMP # move into package directory
-rm -rf $PRGNAM-$VERSION
-tar xvf $CWD/$PRGNAM-$VERSION.tar.gz # unpack source
+cd $TMP # Move into package directory
+rm -rf $PRGNAM-$VERSION # Erase prior source
+mkdir -p $TMP/$PRGNAM-$VERSION # Recreate appropriately named source dir
+tar xvf $CWD/$TARNAM --strip-components=1 -C $TMP/$PRGNAM-$VERSION # Unpack source
 cd $PRGNAM-$VERSION
-# give everything to root user/group
-chown -R root:root .
+chown -R root:root . # Give everything to root user/group
 find -L . \
  \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
   -o -perm 511 \) -exec chmod 755 {} \; -o \
@@ -80,22 +83,21 @@ find -L . \
   -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
 
 CFLAGS="$SLKCFLAGS" \
-CXXFLAGS="$SLKCFLAGS" \
-make
-make install PREFIX=/usr/local DESTDIR=$PKG
+	  CXXFLAGS="$SLKCFLAGS" \
+	  make
+make install PREFIX=/usr DESTDIR=$PKG
 
-mkdir -p $PKG/etc/X11/xinit
-install -m 0755 $CWD/xinitrc.$PRGNAM $PKG/etc/X11/xinit/xinitrc.$PRGNAM
+rm -f $PKG/{,usr/}lib${LIBDIRSUFFIX}/*.la
 
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
 
-# may need to be set to /usr/local/share/man in both places
-#find $PKG/usr/local/share/man1 -type f -exec gzip -9 {} \;
-#for i in $( find $PKG/usr/local/share/man1 -type l ); do
-#  ln -s $( readlink $i ).gz $i.gz
-#  rm $i
-#done
+# Install xinitrc.sdorfehs
+mkdir -p $PKG/etc/X11/xinit
+install -m 0755 $CWD/xinitrc.$PRGNAM $PKG/etc/X11/xinit/xinitrc.$PRGNAM
+
+find $PKG/usr/man -type f -exec gzip -9 {} \;
+for i in $( find $PKG/usr/man -type l ) ; do ln -s $( readlink $i ).gz $i.gz ; rm $i ; done
 
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
 cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
@@ -104,4 +106,4 @@ mkdir -p $PKG/install
 cat $CWD/slack-desc > $PKG/install/slack-desc
 
 cd $PKG
-/sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-tgz}
+/sbin/makepkg -l y -c n $OUTPUT/$PRGNAM-$VERSION-$ARCH-$BUILD$TAG.$PKGTYPE

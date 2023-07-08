@@ -1,0 +1,116 @@
+#+TITLE: Brian's SlackBuilds
+#+AUTHOR: Brian Hoffpauir
+#+DATE: <2023-07-01 Sat>
+#+EMAIL: bhoffpauirmail@gmail.com
+#+DESCRIPTION: Brian's SlackBuilds README.
+#+LANGUAGE: en
+#+OPTIONS: toc:2 html-postamble:nil
+
+A repository for SlackBuild scripts that I create.  SlackBuilds are scripts used to build software packages for Slackware systems.  Dependencies are listed in the package-name.info file in the =REQUIRES= variable and must be retrieved manually.
+
+* SlackBuilds
+  
+SlackBuilds that have been submitted and approved for inclusion in the /SlackBuilds.org/ project are grouped under the *Official* list with a link to their corresponding page on the [[https://slackbuilds.org/][SlackBuilds]] website.
+
+** Official
+
+- cglm (Maintained by me | [[https://slackbuilds.org/repository/15.0/libraries/cglm/][SlackBuilds.org - cglm]])
+- sdorfehs (Maintained by me | [[https://slackbuilds.org/repository/15.0/desktop/sdorfehs/][SlackBuilds.org - sdorfehs]])
+
+** Unofficial
+
+- godot
+- JSBSim
+  
+* Building
+
+Clone the repository and select the desired branch.  Currently both the /release-15.0/ and /current/ branches can be used with /Slackware 15.0/.
+#+BEGIN_SRC shell
+$ git clone https://github.com/cppimmo/SlackBuilds.git SlackBuilds_Brian
+$ cd SlackBuilds_Brian && git checkout -b current origin/current
+#+END_SRC
+
+To build a single SlackBuild:
+
+#+BEGIN_SRC shell
+$ cd /slackbuild/directory
+$ source ./prgnam.info
+$ wget $DOWNLOAD
+
+$ sudo bash ./prgnam.SlackBuild
+$ # or
+$ chmod +x ./prgnam.SlackBuild
+$ sudo ./prgnam.SlackBuild
+#+END_SRC
+
+If you need to supply options shown in the README of a SlackBuild:
+
+#+BEGIN_SRC shell
+$ su -
+$ cd /your/SlackBuild/directory/ # Replace this with the directory your SlackBuild is located
+$ OPTION=VALUE ANOTHER_OPTION=VALUE bash ./prgnam.SlackBuild
+#+END_SRC
+
+You can build all of my SlackBuilds in bulk with the following command:
+
+#+BEGIN_SRC shell
+$ sudo bash distribute.sh --build-all
+#+END_SRC
+
+This will place the package tarballs in a directory named /build/.  It will also build every package, and you can install them using the following commands:
+
+#+BEGIN_SRC shell
+$ sudo /sbin/installpkg whatever_package-x86_64-1_SBo.tgz
+$ # or
+$ sudo /sbin/upgradepkg --install-new whatever_package-x86_64-1_SBo.tgz
+#+END_SRC
+
+To uninstall a package:
+
+#+BEGIN_SRC shell
+$ sudo /sbin/removepkg whatever_package # Note that you needn't specify the version
+#+END_SRC
+
+For more help see the following webpages:
+- [[https://www.slackwiki.com/SlackBuild_Scripts][SlackBuild Scripts - SlackWiki]]
+- [[http://docs.slackware.com/slackware:slackbuild_scripts][SlackBuild scripts - SlackDocs]]
+- [[https://docs.slackware.com/howtos:misc:anatomy_of_a_slackbuild][Anatomy of a Slackbuild - SlackDocs]]
+- [[https://docs.slackware.com/howtos:slackware_admin:creating_a_package_using_a_slackbuild_script][Creating a Package Using a SlackBuild Script]]
+- [[https://slackbuilds.org/repository/15.0/system/sbo-maintainer-tools/][Tools for Maintaining SlackBuilds (SBo)]]
+- [[https://slackbuilds.org/howto/][SlackBuilds.org - SlackBuild Usage HOWTO]]
+  
+* Disclaimer
+
+My SlackBuilds that have been approved and included in the /SlackBuilds.org/ project use the =_SBo= tag, while those that have not use the =_Brian= tag.  It should be noted that, while some of these SlackBuilds use the =_SBo= tag, the official download source is preferred as they can be [[https://slackbuilds.org/faq/#asc][verified]].  You can find those links in the [[file:README.org::*SlackBuilds][SlackBuilds]] section of this document.
+
+Note that SlackBuilds with the =_Brian= tag are not official; meaning they are not endorsed by the /SlackBuilds.org/ project.  Install at your own risk.
+
+* License
+
+Each script has its own license header, but other files in this repository are licensed under the “Simplified BSD License.”
+
+** BSD 2-Clause License
+
+Copyright (c) 2021-2023, Brian Hoffpauir
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
