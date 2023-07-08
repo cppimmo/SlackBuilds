@@ -4,7 +4,7 @@
 #+EMAIL: bhoffpauirmail@gmail.com
 #+DESCRIPTION: Brian's SlackBuilds useful links.
 #+LANGUAGE: en
-#+OPTIONS: toc:1
+#+OPTIONS: toc:1 html-postamble:nil
 
 This document contains a list of relevant webpages for each SlackBuild.
 
@@ -18,6 +18,13 @@ This document contains a list of relevant webpages for each SlackBuild.
 - [[https://godotengine.org/]]
 - [[https://github.com/godotengine/godot]]
 - [[https://docs.godotengine.org/en/stable/]]
+
+* JSBSim
+
+- https://jsbsim.sourceforge.net/
+- https://jsbsim-team.github.io/jsbsim/index.html
+- https://github.com/JSBSim-Team/jsbsim
+- https://github.com/JSBSim-Team/jsbsim/releases
 
 * sdorfehs
 

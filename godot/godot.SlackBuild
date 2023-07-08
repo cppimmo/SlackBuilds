@@ -30,12 +30,12 @@ PRGNAM=godot
 VERSION=${VERSION:-4.0.3}
 # https://downloads.tuxfamily.org/godotengine/4.0.3/godot-4.0.3-stable.tar.xz
 BUILD=${BUILD:-1}
-TAG=${TAG:-_SBo}
+TAG=${TAG:-_Brian}
 PKGTYPE=${PKGTYPE:-tgz}
 
 # OPTIONS (see https://docs.godotengine.org/en/latest/contributing/development/compiling/compiling_for_linuxbsd.html)
 
-PLATFORM=${PLATFORM:-linuxbsd} # Should remain linuxbsd
+PLATFORM=linuxbsd # Should remain linuxbsd
 USE_UDEV=${UDEV:-no} # Use libudev
 USE_LLVM=${USE_LLVM:-no} # Use clang instead of GCC
 LINKER=${LINKER:-ldd} # Use a different linker (lld for Clang)
@@ -43,9 +43,11 @@ USE_LTO=${USE_LTO:-no} # Use link-time optimization (GCC only)
 TARGET=${TARGET:-editor} # Editor target by default
 # For use with template_release target:
 PRODUCTION=${PRODUCTION:-no} # Make executable smaller and faster for production use
+TEMPLATE_64=${TEMPLATE_64:-no}
+TEMPLATE_32=${TEMPLATE_32:-no}
 # Supply either doxygen, rst, or rstjs to build documentation
 #DOC=doxygen | rst | rstjs
-
+			  
 if [ -z "$ARCH" ]; then
   case "$(uname -m)" in
   	i?86) ARCH=i586 ;;
@@ -108,6 +110,18 @@ scons platform="$PLATFORM" \
 	  udev="$USE_UDEV" \
 	  use_llvm="$USE_LLVM" \
 	  use_lto="$USE_LTO"
+
+# Build linuxbsd 32bit export template
+if egrep -iq 'yes' <<< $TEMPLATE_32; then
+  scons platform="$PLATFORM" target=template_release arch=x86_32
+  scons platform="$PLATFORM" target=template_debug arch=x86_32
+fi
+
+# Build linuxbsd 64bit export template
+if egrep -iq 'yes' <<< $TEMPLATE_64; then
+  scons platform="$PLATFORM" target=template_release arch=x86_64
+  scons platform="$PLATFORM" target=template_debug arch=x86_64
+fi
 
 # Only process when a non-empty 
 if [ -n "$DOC" ]; then

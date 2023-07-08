@@ -4,41 +4,33 @@
 #+EMAIL: bhoffpauirmail@gmail.com
 #+DESCRIPTION: Brian's SlackBuilds README.
 #+LANGUAGE: en
-#+OPTIONS: toc:2
+#+OPTIONS: toc:2 html-postamble:nil
 
 A repository for SlackBuild scripts that I create.  SlackBuilds are scripts used to build software packages for Slackware systems.  Dependencies are listed in the package-name.info file in the =REQUIRES= variable and must be retrieved manually.
 
 * SlackBuilds
-
-- cglm
-- godot
-- sdorfehs
   
-#+BEGIN_COMMENT
-SlackBuilds that have been submitted and approved for inclusion in the /SlackBuilds.org/ project under grouped under the *Official* list with a link to their corresponding page on the [[https://slackbuilds.org/][SlackBuilds]] website.
+SlackBuilds that have been submitted and approved for inclusion in the /SlackBuilds.org/ project are grouped under the *Official* list with a link to their corresponding page on the [[https://slackbuilds.org/][SlackBuilds]] website.
 
 ** Official
 
-- cglm ([[https://slackbuilds.org/repository/15.0/][SlackBuilds.org - cglm]])
-- sdorfehs ([[https://slackbuilds.org/repository/15.0/][SlackBuilds.org - sdorfehs]])
-#+END_COMMENT
+- cglm (Maintained by me | [[https://slackbuilds.org/repository/15.0/libraries/cglm/][SlackBuilds.org - cglm]])
+- sdorfehs (Maintained by me | [[https://slackbuilds.org/repository/15.0/desktop/sdorfehs/][SlackBuilds.org - sdorfehs]])
 
-#+BEGIN_COMMENT
 ** Unofficial
 
 - godot
-#+END_COMMENT
+- JSBSim
   
 * Building
 
-You can build all of my SlackBuilds in bulk with the following commands:
-
+Clone the repository and select the desired branch.  Currently both the /release-15.0/ and /current/ branches can be used with /Slackware 15.0/.
 #+BEGIN_SRC shell
-$ chmod +x distribute.sh
-$ sudo ./distribute.sh --build-all
+$ git clone https://github.com/cppimmo/SlackBuilds.git SlackBuilds_Brian
+$ cd SlackBuilds_Brian && git checkout -b current origin/current
 #+END_SRC
 
-To build a single SlackBuild
+To build a single SlackBuild:
 
 #+BEGIN_SRC shell
 $ cd /slackbuild/directory
@@ -57,6 +49,12 @@ If you need to supply options shown in the README of a SlackBuild:
 $ su -
 $ cd /your/SlackBuild/directory/ # Replace this with the directory your SlackBuild is located
 $ OPTION=VALUE ANOTHER_OPTION=VALUE bash ./prgnam.SlackBuild
+#+END_SRC
+
+You can build all of my SlackBuilds in bulk with the following command:
+
+#+BEGIN_SRC shell
+$ sudo bash distribute.sh --build-all
 #+END_SRC
 
 This will place the package tarballs in a directory named /build/.  It will also build every package, and you can install them using the following commands:
@@ -79,12 +77,13 @@ For more help see the following webpages:
 - [[https://docs.slackware.com/howtos:misc:anatomy_of_a_slackbuild][Anatomy of a Slackbuild - SlackDocs]]
 - [[https://docs.slackware.com/howtos:slackware_admin:creating_a_package_using_a_slackbuild_script][Creating a Package Using a SlackBuild Script]]
 - [[https://slackbuilds.org/repository/15.0/system/sbo-maintainer-tools/][Tools for Maintaining SlackBuilds (SBo)]]
+- [[https://slackbuilds.org/howto/][SlackBuilds.org - SlackBuild Usage HOWTO]]
   
 * Disclaimer
 
-My SlackBuilds that have been approved and included in the /SlackBuilds.org/ project use the _SBo tag, while those that have not use the =_Brian= tag.  It should be noted that, while some of these SlackBuilds use the =_SBo= tag, the official download source is preferred and they can be [[https://slackbuilds.org/faq/#asc][verified]].  You can find those links in the [[file:README.org::*SlackBuilds][SlackBuilds]] section of this document.
+My SlackBuilds that have been approved and included in the /SlackBuilds.org/ project use the =_SBo= tag, while those that have not use the =_Brian= tag.  It should be noted that, while some of these SlackBuilds use the =_SBo= tag, the official download source is preferred as they can be [[https://slackbuilds.org/faq/#asc][verified]].  You can find those links in the [[file:README.org::*SlackBuilds][SlackBuilds]] section of this document.
 
-Note that SlackBuilds with =_Brian= tag are not official; meaning they are not endorsed by the /SlackBuilds.org/ project or Slackare.  Install at your own risk.
+Note that SlackBuilds with the =_Brian= tag are not official; meaning they are not endorsed by the /SlackBuilds.org/ project.  Install at your own risk.
 
 * License
 
