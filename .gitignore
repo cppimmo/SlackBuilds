@@ -1,9 +1,16 @@
-# exclude emacs backup files
+# Ignore Emacs backup files:
 **~
+
+# Ignore built packages:
 /build/**
+
+# Ignore source code or package archives:
 *.tar.gz
 *.tgz
 *.tar.bz2
 *.tbz2
 *.txz
 *.tar.xz
+
+# Ignore org-mode exports of README, TODO, etc.
+/*.html

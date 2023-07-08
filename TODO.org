@@ -28,6 +28,8 @@
 
 ** TODO Support MATLAB S-Function
 
+** TODO Set lib directory arch suffix without using patches
+
 * sdorfehs
 
 ** DONE Install xinitrc.sdorfehs to appropriate location
