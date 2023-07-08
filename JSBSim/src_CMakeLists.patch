@@ -1,0 +1,24 @@
+--- /tmp/SBo/JSBSim-1.1.13/src/CMakeLists.txt	2022-11-27 05:37:45.000000000 -0600
++++ src_CMakeLists.txt	2023-07-08 16:14:35.207552503 -0500
+@@ -140,18 +140,18 @@
+   set_target_properties (libJSBSim PROPERTIES
+                                    SOVERSION ${LIBRARY_SOVERSION}
+                                    FRAMEWORK ON)
+-  install(TARGETS libJSBSim LIBRARY DESTINATION lib
++  install(TARGETS libJSBSim LIBRARY DESTINATION "lib${LIB_SUFFIX}"
+                             NAMELINK_SKIP
+                             COMPONENT runtime
+                             # For Mac
+                             FRAMEWORK DESTINATION "/Library/Frameworks")
+-  install(TARGETS libJSBSim LIBRARY DESTINATION lib
++  install(TARGETS libJSBSim LIBRARY DESTINATION "lib${LIB_SUFFIX}"
+                             NAMELINK_ONLY
+                             COMPONENT devel
+                             # For Mac
+                             FRAMEWORK DESTINATION "/Library/Frameworks")
+ else()
+-  install(TARGETS libJSBSim ARCHIVE DESTINATION lib
++  install(TARGETS libJSBSim ARCHIVE DESTINATION "lib${LIB_SUFFIX}"
+                             COMPONENT devel
+                             # For Mac
+                             FRAMEWORK DESTINATION "/Library/Frameworks")
