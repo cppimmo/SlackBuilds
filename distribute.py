@@ -6,12 +6,13 @@
 
 import argparse
 from argparse import ArgumentParser
-import glob
+import hashlib
 from os import geteuid, getcwd, walk, chdir, makedirs
 from os.path import basename
 import re
 import requests
 from requests.exceptions import RequestException
+import shlex
 import subprocess as sp
 from subprocess import CalledProcessError
 import sys
@@ -55,15 +56,35 @@ def retrieve_slackbuild_dirs(dirname='.'):
         next(walk(dirname))[1]
     ))
 
-def url_from_info(slackbuild_name):
-    """Placeholder docstring."""
-    return sp.check_output(
-        f"source {slackbuild_name}.info && echo -n $DOWNLOAD",
-        shell=True
-    ).decode('utf-8')
+def info_var_to_list(line):
+    """Create a list from a space-delimited variable in a single SlackBuild .info file LINE."""
+    return list(filter(
+        lambda item: item,
+        line.split('="', maxsplit=1)[1:][0][:-1].split(' ')
+    ))
+
+def urls_from_info(slackbuild_name):
+    """Return a tuple of url and checksum lists from a SLACKBUILD_NAME.info file."""
+    urls = []
+    checksums = []
+    # Open SLACKBUILD_NAME.info file for reading
+    fin = open(f"{slackbuild_name}.info", "rt")
+    while True:
+        line = fin.readline()
+        if not line:
+            break
+        # Strip trailing newlines/whitespace from input line
+        line = line.rstrip()
+        # Splice results of info_var_to_list() into url & checksum lists
+        if line.startswith('DOWNLOAD'):
+            urls.extend(info_var_to_list(line))
+        elif line.startswith('MD5SUM'):
+            checksums.extend(info_var_to_list(line))
+    # Return tuple of urls & checksums
+    return (urls, checksums)
 
 def download_file(url) -> str:
-    """Placeholder docstring."""
+    """Download file at URL and preserve the original filename."""
     try:
         with requests.get(url, stream=True) as r:
             filename = ""
@@ -82,6 +103,31 @@ def download_file(url) -> str:
         print(e)
         return ""
 
+def checksum_validate(filename, checksum):
+    """If the md5 checksum of FILENAME does not match CHECKSUM, then prompt before continuing."""
+    file_checksum = hashlib.md5(open(filename, 'rb').read()).hexdigest()
+    # When the file's checksum is not the same as the given argument
+    if file_checksum != checksum:
+        # Prompt for exit
+        proceed = input("""\nA downloaded file did not match its associated checksum.
+Do you still want to continue? (y/n) """)
+        if not proceed in 'yY':
+            sys.exit("Exiting...")
+
+def run_command(command):
+    """Placeholder docstring."""
+    process = sp.Popen(shlex.split(command), stdout=sp.PIPE, stderr=sp.PIPE)
+    
+    while True:
+        output = process.stdout.readline()
+        if output == b'' and process.poll() is not None:
+            break
+        if output:
+            print(output.decode('utf-8').strip())
+
+    rc = process.poll()
+    return rc
+
 def build_all():
     """Placeholder docstring."""
     # Create tmp/output directory
@@ -89,30 +135,29 @@ def build_all():
 
     # Retrieve immediate subdirectories.
     #slackbuild_dirs = retrieve_slackbuild_dirs()
-    slackbuild_dirs = ["sdorfehs"]
+    slackbuild_dirs = ["cglm"]
     
     for dirname in slackbuild_dirs:
         print(dirname)
         # Change to the SlackBuild's directory
         chdir(dirname)
         # Download the package source(s)
-        download_file(url_from_info(dirname))
+        
+        for url, checksum in zip(*urls_from_info(dirname)):
+            print(url, checksum)
+            checksum_validate(download_file(url), checksum)
 
         try:
             print("Current dir:", getcwd())
-            process = sp.Popen([
-                #f"TMP={TMP_DIR}", f"OUTPUT={OUTPUT_DIR}",
-                "bash", dirname + ".SlackBuild"
-            ], stdout=sp.PIPE, stderr=sp.PIPE)
 
-            while True:
-                out = process.stdout.read(1)
-                if out == '' and process.poll() != None:
-                    break
-                if out != '':
-                    sys.stdout.write(out.decode('utf-8'))
-                    sys.stdout.flush()
-            print("Return code:", result.stdout)
+            #run_command("python3 -h")
+            #process = sp.Popen([
+                #f"TMP={TMP_DIR}", f"OUTPUT={OUTPUT_DIR}",
+            #   "bash", dirname + ".SlackBuild"
+            #], stdout=sp.PIPE, stderr=sp.PIPE)
+
+
+            #print("Return code:", result.stdout)
         except CalledProcessError as e:
             print("SlackBuild failed:", e.returncode, e.stderr, file=sys.stderr)
             exit(EXIT_FAILURE)
