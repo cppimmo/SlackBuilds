@@ -29,13 +29,14 @@ cd $(dirname $0) ; CWD=$(pwd)
 PRGNAM=JSBSim
 VERSION=${VERSION:-1.1.13}
 BUILD=${BUILD:-1}
-TAG=${TAG:-_Brian}
+TAG=${TAG:-_SBo}
 PKGTYPE=${PKGTYPE:-tgz}
 
 # OPTIONS
 # Build using Slackware's l/expat XML parsing library (default to ON)
 SYSTEM_EXPAT=${SYSTEM_EXPAT:-ON}
 # Share library between Python module and JSBSim executable (default to ON)
+# Otherwise build a static library.
 BUILD_SHARED_LIBS=${BUILD_SHARED_LIBS:-ON}
 # Build C++ API documentation (default to OFF; requires Doxygen and Graphviz)
 BUILD_DOCS=${BUILD_DOCS:-OFF}
@@ -93,17 +94,12 @@ find -L . \
  \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
   -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
 
-# Apply patches which add a LIB_SUFFIX to the destinations of the JSBSim and aeromatic++ library targets:
-patch -u $TMP/$PRGNAM-$VERSION/src/CMakeLists.txt -i $CWD/src_CMakeLists.patch
-patch -u $TMP/$PRGNAM-$VERSION/utils/aeromatic++/CMakeLists.txt -i $CWD/aeromatic++_CMakeLists.patch
-
 mkdir -p build
 cd build
   cmake -G "Unix Makefiles" \
 		-DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
 		-DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
 		-DCMAKE_INSTALL_PREFIX=/usr \
-		-DLIB_SUFFIX="$LIBDIRSUFFIX" \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DPYTHON_EXECUTABLE="$PYTHON_EXECUTABLE" \
 		-DSYSTEM_EXPAT="$SYSTEM_EXPAT" \
@@ -117,6 +113,24 @@ cd ..
 
 rm -f $PKG/{,usr/}lib${LIBDIRSUFFIX}/*.la
 
+# JSBSim's CMake setup does not support GNUInstallDirs or a LIB_SUFFIX cache variable.
+# If a library directory suffix is set, move the libraries to that directory.
+if [ -n "$LIBDIRSUFFIX" ]; then
+  # Create /usr/lib64/ and /usr/lib64/pkgconfig
+  mkdir -p $PKG/usr/lib${LIBDIRSUFFIX}/{,pkgconfig}
+  # Move libAeromatic++ and libJSBSim
+  mv $PKG/usr/lib/libAeromatic++.* $PKG/usr/lib${LIBDIRSUFFIX}/
+  mv $PKG/usr/lib/libJSBSim.* $PKG/usr/lib${LIBDIRSUFFIX}/
+  mv $PKG/usr/lib/pkgconfig/JSBSim.pc $PKG/usr/lib${LIBDIRSUFFIX}/pkgconfig
+  # Set correct library directory in libJSBSim's pkgconfig:
+  sed -i "s|libdir=/usr/lib|libdir=/usr/lib${LIBDIRSUFFIX}|" \
+	  $PKG/usr/lib${LIBDIRSUFFIX}/pkgconfig/JSBSim.pc &>> /dev/null
+  # Remove possibly empty directories
+  rmdir --ignore-fail-on-non-empty \
+		$PKG/usr/lib/pkgconfig/ \
+		$PKG/usr/lib
+fi
+
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
 
@@ -128,6 +142,10 @@ cp -a \
    $TMP/$PRGNAM-$VERSION/AUTHORS \
    $TMP/$PRGNAM-$VERSION/doc/DevelopersDocs.md \
    $TMP/$PRGNAM-$VERSION/doc/spreadsheets/ \
+   $TMP/$PRGNAM-$VERSION/examples/ \
+   $TMP/$PRGNAM-$VERSION/aircraft/ \
+   $TMP/$PRGNAM-$VERSION/engine/ \
+   $TMP/$PRGNAM-$VERSION/systems/ \
    $TMP/$PRGNAM-$VERSION/scripts/ \
    $PKG/usr/doc/$PRGNAM-$VERSION
 

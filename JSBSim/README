@@ -11,8 +11,9 @@ Available options with their default values shown below:
   SYSTEM_EXPAT=ON
     Use Slackware's native l/expat XML library
   BUILD_SHARED_LIBS=ON
-    Build libJSBSim as a shared library for use by the JSBSim
-    executable and the Python module
+    Build libJSBSim as a shared library for use by the JSBSim executable
+    and the Python module; otherwise, build libJSBSim as a static
+    library
   BUILD_DOCS=OFF
     Build the C++ API documentation with Doxygen
   BUILD_PYTHON_MODULE=ON
