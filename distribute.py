@@ -17,6 +17,7 @@ import subprocess as sp
 from subprocess import CalledProcessError
 import sys
 from sys import exit
+from urllib.parse import urlparse
 
 # Constants:
 CWD = getcwd()
@@ -49,21 +50,21 @@ def tarball_builds():
     """Placeholder docstring."""
     return 1
 
-def retrieve_slackbuild_dirs(dirname='.'):
-    """Placeholder docstring."""
+def retrieve_slackbuild_dirs(dirname='.') -> list:
+    """Retrieve all visible immediate directorys in DIRNAME."""
     return list(filter(
         lambda dir: dir[0] != '.',
         next(walk(dirname))[1]
     ))
 
-def info_var_to_list(line):
+def info_var_to_list(line) -> list:
     """Create a list from a space-delimited variable in a single SlackBuild .info file LINE."""
     return list(filter(
         lambda item: item,
         line.split('="', maxsplit=1)[1:][0][:-1].split(' ')
     ))
 
-def urls_from_info(slackbuild_name):
+def urls_from_info(slackbuild_name) -> tuple:
     """Return a tuple of url and checksum lists from a SLACKBUILD_NAME.info file."""
     urls = []
     checksums = []
@@ -87,12 +88,8 @@ def download_file(url) -> str:
     """Download file at URL and preserve the original filename."""
     try:
         with requests.get(url, stream=True) as r:
-            filename = ""
-            if "Content-Disposition" in r.headers.keys():
-                filename = re.findall("filename=(.+)", r.headers["Content-Disposition"])[0]
-            else:
-                filename = url.split("/")[-1]
-            print(filename)
+            # Use basename of url path instead of Content-Disposition
+            filename = basename(urlparse(url).path)
 
             with open(filename, 'wb') as f:
                 for chunk in r.iter_content(chunk_size=1024):
@@ -101,9 +98,8 @@ def download_file(url) -> str:
             return filename
     except RequestException as e:
         print(e)
-        return ""
 
-def checksum_validate(filename, checksum):
+def checksum_validate(filename, checksum) -> None:
     """If the md5 checksum of FILENAME does not match CHECKSUM, then prompt before continuing."""
     file_checksum = hashlib.md5(open(filename, 'rb').read()).hexdigest()
     # When the file's checksum is not the same as the given argument
@@ -116,16 +112,18 @@ Do you still want to continue? (y/n) """)
 
 def run_command(command):
     """Placeholder docstring."""
-    process = sp.Popen(shlex.split(command), stdout=sp.PIPE, stderr=sp.PIPE)
-    
-    while True:
-        output = process.stdout.readline()
-        if output == b'' and process.poll() is not None:
-            break
-        if output:
-            print(output.decode('utf-8').strip())
+    proc = sp.Popen(shlex.split(command), stdout=sp.PIPE, stderr=sp.PIPE)
 
-    rc = process.poll()
+    while True:
+        out = proc.stdout.readline()
+        err = proc.stderr.readline()
+        if (out == b'' and err == b'') and proc.poll() is not None:
+            break
+        if out:
+            print(out.decode("utf-8").strip())
+        if err:
+            print(err.decode("utf-8").strip())
+    rc = proc.poll()
     return rc
 
 def build_all():
@@ -136,6 +134,14 @@ def build_all():
     # Retrieve immediate subdirectories.
     #slackbuild_dirs = retrieve_slackbuild_dirs()
     slackbuild_dirs = ["cglm"]
+    slackbuild_options = dict.fromkeys(slackbuild_dirs)
+
+    print("""Supply build options for each SlackBuild
+Options use the following format: OPTION=VALUE
+See the README for each SlackBuild for more information.\n""")
+    for dirname in slackbuild_dirs:
+        options = input(f"Options for {dirname}: ")
+        slackbuild_options[dirname] = options
     
     for dirname in slackbuild_dirs:
         print(dirname)
@@ -149,13 +155,8 @@ def build_all():
 
         try:
             print("Current dir:", getcwd())
-
-            #run_command("python3 -h")
-            #process = sp.Popen([
-                #f"TMP={TMP_DIR}", f"OUTPUT={OUTPUT_DIR}",
-            #   "bash", dirname + ".SlackBuild"
-            #], stdout=sp.PIPE, stderr=sp.PIPE)
-
+            options = slackbuild_options[dirname]
+            run_command(f"{options} bash {dirname}.SlackBuild")
 
             #print("Return code:", result.stdout)
         except CalledProcessError as e:
