@@ -22,33 +22,31 @@ from urllib.parse import urlparse
 # Constants:
 CWD = getcwd()
 PRGNAM = basename(__file__)
-TMP_DIR = CWD + "/build"
-OUTPUT_DIR = CWD + "/build"
+DEF_TMP_DIR = CWD + "/build"
+DEF_OUTPUT_DIR = CWD + "/build"
 EXIT_SUCCESS = 0
 EXIT_FAILURE = 1
-# Cmdline arguments
-compression = 'z'
-build_all = False
 
-def usage():
-    '''Show usage for program.'''
-    print(f'''{PRGNAM}: usage: {PRGNAM} [-c,--compression flag | -b,--build-all]''')
+def check_root() -> bool:
+    if not geteuid() == 0:
+        print("You must run this script as root to use this option!", file=sys.stderr)
+        exit(EXIT_FAILURE)    
 
 def init_argparse() -> ArgumentParser:
     """Intialize argparse ArgumentParse instance."""
-    parser = ArgumentParser(
-        usage="$(prog)s [OPTION]",
-        description="Build tool for my SlackBuilds."
-    )
-    parser.add_argument(
-        "-v", "--version", action="version",
-        version=f"{parser.prog} version 1.0.0"
-    )
+    parser = ArgumentParser(usage=f"{PRGNAM} [OPTION(s)]",
+                            description="Build tool for my SlackBuilds.")
+    parser.add_argument("-a", "--build-all", action="store_true",
+                        help="build every available SlackBuild")
+    parser.add_argument("-o", "--options", action="store_true",
+                        help="supply options for each script when using --build-all")
+    parser.add_argument("--tmp-dir", default=DEF_TMP_DIR,
+                        help="directory where package source will be extracted")
+    parser.add_argument("--output-dir", default=DEF_OUTPUT_DIR,
+                        help="directory which package tarball will be placed")
+    parser.add_argument("-v", "--version", action="version",
+                        version=f"{parser.prog} version 1.0.0")
     return parser
-    
-def tarball_builds():
-    """Placeholder docstring."""
-    return 1
 
 def retrieve_slackbuild_dirs(dirname='.') -> list:
     """Retrieve all visible immediate directorys in DIRNAME."""
@@ -110,72 +108,63 @@ Do you still want to continue? (y/n) """)
         if not proceed in 'yY':
             sys.exit("Exiting...")
 
-def run_command(command):
+def build_all(tmp_dir, output_dir, supply_options=True) -> None:
     """Placeholder docstring."""
-    proc = sp.Popen(shlex.split(command), stdout=sp.PIPE, stderr=sp.PIPE)
-
-    while True:
-        out = proc.stdout.readline()
-        err = proc.stderr.readline()
-        if (out == b'' and err == b'') and proc.poll() is not None:
-            break
-        if out:
-            print(out.decode("utf-8").strip())
-        if err:
-            print(err.decode("utf-8").strip())
-    rc = proc.poll()
-    return rc
-
-def build_all():
-    """Placeholder docstring."""
-    # Create tmp/output directory
-    makedirs(OUTPUT_DIR, exist_ok=True)
-
+    print("Building all SlackBuilds...\n")
+        
+    print(f"TMP_DIR: {tmp_dir}\nOUTPUT_DIR: {output_dir}\n")
     # Retrieve immediate subdirectories.
     #slackbuild_dirs = retrieve_slackbuild_dirs()
-    slackbuild_dirs = ["cglm"]
+    slackbuild_dirs = ["sdorfehs"]
     slackbuild_options = dict.fromkeys(slackbuild_dirs)
 
-    print("""Supply build options for each SlackBuild
-Options use the following format: OPTION=VALUE
+    if supply_options: 
+        print("""Supply build options for each SlackBuild
+Options use the following format: OPTION1=VALUE OPTION2=VALUE
 See the README for each SlackBuild for more information.\n""")
-    for dirname in slackbuild_dirs:
-        options = input(f"Options for {dirname}: ")
-        slackbuild_options[dirname] = options
+        for dirname in slackbuild_dirs:
+            options = input(f"Options for {dirname}: ")
+            slackbuild_options[dirname] = options
     
     for dirname in slackbuild_dirs:
-        print(dirname)
+        print(f"Fetching package sources for {dirname}...")
         # Change to the SlackBuild's directory
         chdir(dirname)
-        # Download the package source(s)
-        
+        # Download the package source(s):
         for url, checksum in zip(*urls_from_info(dirname)):
-            print(url, checksum)
+            print(f"URL: {url}, CHECKSUM: {checksum}")
             checksum_validate(download_file(url), checksum)
 
         try:
-            print("Current dir:", getcwd())
-            options = slackbuild_options[dirname]
-            run_command(f"{options} bash {dirname}.SlackBuild")
+            print(f"\nNow building {dirname}...\n")
+            
+            options = slackbuild_options[dirname] or ""
+            # Run slackbuild with options, if given:
+            sp.check_call(f"{options} TMP={tmp_dir} OUTPUT={output_dir} bash {dirname}.SlackBuild",
+                          shell=True)
 
-            #print("Return code:", result.stdout)
+            print(f"Build of {dirname} now complete.\n")
         except CalledProcessError as e:
-            print("SlackBuild failed:", e.returncode, e.stderr, file=sys.stderr)
+            print("SlackBuild failed with exitcode: ", e.returncode, file=sys.stderr)
             exit(EXIT_FAILURE)
         # Move back into the parent directory
         chdir("..")
 
+    print("All SlackBuild packages created successfully.")
+
 def main() -> None:
     parser = init_argparse()
     args = parser.parse_args()
-
-    print("Current working directory:", CWD)
-
-    build_all()
-    
-    if not geteuid() == 0:
-        print("You must run this script as root to use this option!", file=sys.stderr)
-        exit(EXIT_FAILURE)
+    # Operate on given arguments:
+    if args.build_all:
+        check_root()
+        # 
+        build_all(args.tmp_dir if args.tmp_dir else DEF_TMP_DIR,
+                  args.output_dir if args.output_dir else DEF_OUTPUT_DIR,
+                  args.options)
+    else:
+        parser.print_help()
+        exit(EXIT_SUCCESS)
 
     exit(EXIT_SUCCESS)
 
