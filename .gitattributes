@@ -1,0 +1,5 @@
+# Set line endings for SlackBuilds
+README       eol=lf
+slack-desc   eol=lf
+*.SlackBuild eol=lf
+*.info       eol=lf

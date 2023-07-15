@@ -1,6 +1,4 @@
 #!/bin/bash
-#
-# ex:set ai shiftwidth=4 inputtab=spaces smarttab noautotab:
 
 # Slackware build script for cglm
 
@@ -27,17 +25,11 @@
 cd $(dirname $0) ; CWD=$(pwd)
 
 PRGNAM=cglm
+SRCNAM=${PRGNAM,,}
 VERSION=${VERSION:-0.9.0}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_SBo}
 PKGTYPE=${PKGTYPE:-tgz}
-
-# OPTIONS
-CGLM_SHARED=${CGLM_SHARED:-ON}
-CGLM_STATIC=${CGLM_STATIC:-OFF}
-CGLM_USE_C99=${CGLM_USE_C99:-OFF}
-CGLM_USE_TEST=${CGLM_USE_TEST:-OFF}
-CGLM_BUILD_DOCS=${CGLM_BUILD_DOCS:-NO} # YES or NO
 
 if [ -z "$ARCH" ]; then
   case "$(uname -m)" in
@@ -65,23 +57,30 @@ elif [ "$ARCH" = "i686" ]; then
 elif [ "$ARCH" = "x86_64" ]; then
   SLKCFLAGS="-O2 -fPIC"
   LIBDIRSUFFIX="64"
+elif [ "$ARCH" = "aarch64" ]; then
+  SLKCFLAGS="-O2 -fPIC"
+  LIBDIRSUFFIX="64"
 else
   SLKCFLAGS="-O2"
   LIBDIRSUFFIX=""
 fi
 
-set -e
+# OPTIONS
+BUILD_SHARED=${BUILD_SHARED:-ON}
+BUILD_STATIC=${BUILD_STATIC:-OFF}
+USE_C99=${USE_C99:-OFF}
+USE_TEST=${USE_TEST:-OFF}
+BUILD_DOCS=${BUILD_DOCS:-NO} # YES or NO
 
-TARNAM=v$VERSION.tar.gz # Source download has a 'v' prefix
+set -e
 
 rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
-cd $TMP # Move into package directory
-rm -rf $PRGNAM-$VERSION # Erase prior source
-mkdir -p $TMP/$PRGNAM-$VERSION # Recreate appropriately named source dir
-tar xvf $CWD/$TARNAM --strip-components=1 -C $TMP/$PRGNAM-$VERSION # Unpack source
-cd $PRGNAM-$VERSION
-chown -R root:root . # Give everything to root user/group
+cd $TMP
+rm -rf $SRCNAM-$VERSION
+tar xvf $CWD/$SRCNAM-$VERSION.tar.gz
+cd $SRCNAM-$VERSION
+chown -R root:root .
 find -L . \
  \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
   -o -perm 511 \) -exec chmod 755 {} \; -o \
@@ -90,35 +89,35 @@ find -L . \
 
 mkdir -p build
 cd build
-cmake -G "Unix Makefiles" \
-      -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
-      -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
-      -DCMAKE_INSTALL_PREFIX=/usr \
-      -DLIB_SUFFIX=${LIBDIRSUFFIX} \
-      -DCMAKE_BUILD_TYPE=Release \
-	  -DCGLM_SHARED=$CGLM_SHARED \
-	  -DCGLM_STATIC=$CGLM_STATIC \
-	  -DCGLM_USE_C99=$CGLM_USE_C99 \
-	  -DCGLM_USE_TEST=$CGLM_USE_TEST ..
-
-make
-make install/strip DESTDIR=$PKG
+  cmake -G "Unix Makefiles" \
+		-DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+		-DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DLIB_SUFFIX=${LIBDIRSUFFIX} \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCGLM_SHARED=$BUILD_SHARED \
+		-DCGLM_STATIC=$BUILD_STATIC \
+		-DCGLM_USE_C99=$USE_C99 \
+		-DCGLM_USE_TEST=$USE_TEST ..
+  make
+  make install/strip DESTDIR=$PKG
+cd ..
 
 rm -f $PKG/{,usr/}lib${LIBDIRSUFFIX}/*.la
 
-if egrep -iq 'yes' <<< $CGLM_BUILD_DOCS; then
-  cd $TMP/$PRGNAM-$VERSION/docs
-
+if [[ "${BUILD_DOCS,,}" = "yes" ]]; then
+  cd docs
   sphinx-build source build
+  cd ..
 fi
 
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
 
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
-if egrep -iq 'yes' <<< $CGLM_BUILD_DOCS; then
+if [[ "${BUILD_DOCS,,}" = "yes" ]]; then
   cp -a \
-	 $TMP/$PRGNAM-$VERSION/docs/build/. \
+	 docs/build/. \
 	 $PKG/usr/doc/$PRGNAM-$VERSION
 fi
 cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild

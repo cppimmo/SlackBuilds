@@ -15,12 +15,12 @@ SlackBuilds that have been submitted and approved for inclusion in the /SlackBui
 ** Official
 
 - cglm (Maintained by me | [[https://slackbuilds.org/repository/15.0/libraries/cglm/][SlackBuilds.org - cglm]])
+- JSBSim (Maintained by me | [[https://slackbuilds.org/repository/15.0/libraries/JSBSim/][SlackBuilds.org - JSBSim]])
 - sdorfehs (Maintained by me | [[https://slackbuilds.org/repository/15.0/desktop/sdorfehs/][SlackBuilds.org - sdorfehs]])
 
 ** Unofficial
 
 - godot
-- JSBSim
   
 * Building
 
@@ -48,21 +48,39 @@ If you need to supply options shown in the README of a SlackBuild:
 #+BEGIN_SRC shell
 $ su -
 $ cd /your/SlackBuild/directory/ # Replace this with the directory your SlackBuild is located
-$ OPTION=VALUE ANOTHER_OPTION=VALUE bash ./prgnam.SlackBuild
+$ OPTION1=VALUE OPTION2=VALUE bash ./prgnam.SlackBuild
 #+END_SRC
 
-You can build all of my SlackBuilds in bulk with the following command:
+You can build all of my SlackBuilds in bulk with the /distribute.py/ Python 3 script in the root of this repository:
 
 #+BEGIN_SRC shell
-$ sudo bash distribute.sh --build-all
+$ sudo ./distribute.py --build-all
 #+END_SRC
 
-This will place the package tarballs in a directory named /build/.  It will also build every package, and you can install them using the following commands:
+You can also choose to create only a single SlackBuild package using:
 
 #+BEGIN_SRC shell
-$ sudo /sbin/installpkg whatever_package-x86_64-1_SBo.tgz
-$ # or
-$ sudo /sbin/upgradepkg --install-new whatever_package-x86_64-1_SBo.tgz
+$ sudo ./distribute.py --build-single sdorfehs # Replace with needed SlackBuild name
+#+END_SRC
+
+  You can also be prompted to supply options for each script.  The format for options is *OPTION1=VALUE OPTION2=VALUE*.  You should view the /README/ for each script to see which options are available.  See the following snippet:
+
+#+BEGIN_SRC shell
+$ sudo ./distribute.py --build-all --options
+#+END_SRC
+
+By default the created packages will be placed in a directory named /build/ at the root of the repository.  You can provide different values to the TMP and OUTPUT variables of the SlackBuild scripts by using:
+
+#+BEGIN_SRC shell
+$ sudo ./distribute.py --build-all --options --tmp-dir /path/to/tmp/dir --output-dir /path/to/output/dir
+#+END_SRC
+
+You can install the created packages using the following commands:
+
+#+BEGIN_SRC shell
+  $ sudo /sbin/installpkg whatever_package-x86_64-1_SBo.tgz
+  $ # or
+  $ sudo /sbin/upgradepkg --install-new whatever_package-x86_64-1_SBo.tgz
 #+END_SRC
 
 To uninstall a package:
@@ -87,7 +105,7 @@ Note that SlackBuilds with the =_Brian= tag are not official; meaning they are n
 
 * License
 
-Each script has its own license header, but other files in this repository are licensed under the “Simplified BSD License.”
+Each SlackBuild script has its own license header, but other source files in this repository are licensed under the “Simplified BSD License.”
 
 ** BSD 2-Clause License
 

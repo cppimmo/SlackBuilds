@@ -14,3 +14,6 @@
 
 # Ignore org-mode exports of README, TODO, etc.
 /*.html
+
+#
+__pycache__/**

@@ -1,6 +1,4 @@
 #!/bin/bash
-#
-# ex:set ai shiftwidth=4 inputtab=spaces smarttab noautotab:
 
 # Slackware build script for JSBsim
 
@@ -27,28 +25,17 @@
 cd $(dirname $0) ; CWD=$(pwd)
 
 PRGNAM=JSBSim
+SRCNAM=${PRGNAM,,}
 VERSION=${VERSION:-1.1.13}
 BUILD=${BUILD:-1}
-TAG=${TAG:-_Brian}
+TAG=${TAG:-_SBo}
 PKGTYPE=${PKGTYPE:-tgz}
 
-# OPTIONS
-# Build using Slackware's l/expat XML parsing library (default to ON)
-SYSTEM_EXPAT=${SYSTEM_EXPAT:-ON}
-# Share library between Python module and JSBSim executable (default to ON)
-BUILD_SHARED_LIBS=${BUILD_SHARED_LIBS:-ON}
-# Build C++ API documentation (default to OFF; requires Doxygen and Graphviz)
-BUILD_DOCS=${BUILD_DOCS:-OFF}
-# This option is used for both build & install CMake cache variables
-BUILD_PYTHON_MODULE=${BUILD_PYTHON_MODULE:-ON} # (default to ON)
-# Ensure appropriate Python version 3 executable is used; can be overridden if needed
-PYTHON_EXECUTABLE=${PYTHON_EXECUTABLE:-"$(which python3)"}
-
 if [ -z "$ARCH" ]; then
-  case "$(uname -m)" in
+  case "$( uname -m )" in
     i?86) ARCH=i586 ;;
     arm*) ARCH=arm ;;
-    *) ARCH=$(uname -m) ;;
+       *) ARCH=$( uname -m ) ;;
   esac
 fi
 
@@ -70,6 +57,9 @@ elif [ "$ARCH" = "i686" ]; then
 elif [ "$ARCH" = "x86_64" ]; then
   SLKCFLAGS="-O2 -fPIC"
   LIBDIRSUFFIX="64"
+elif [ "$ARCH" = "aarch64" ]; then
+  SLKCFLAGS="-O2 -fPIC"
+  LIBDIRSUFFIX="64"
 else
   SLKCFLAGS="-O2"
   LIBDIRSUFFIX=""
@@ -77,25 +67,31 @@ fi
 
 set -e
 
-TARNAM=v$VERSION.tar.gz # Source download has a 'v' prefix
+# OPTIONS
+# Build using Slackware's l/expat XML parsing library
+SYSTEM_EXPAT=${SYSTEM_EXPAT:-ON}
+# Share library between Python module and JSBSim executable,
+# otherwise build a static library
+BUILD_SHARED_LIBS=${BUILD_SHARED_LIBS:-ON}
+# Build C++ API documentation (requires Doxygen and Graphviz)
+BUILD_DOCS=${BUILD_DOCS:-OFF}
+# This option is used for both build & install CMake cache variables
+BUILD_PYTHON_MODULE=${BUILD_PYTHON_MODULE:-ON}
+# Ensure appropriate Python version 3 executable is used; can be overridden if needed
+PYTHON_EXECUTABLE=${PYTHON_EXECUTABLE:-"$(which python3)"}
 
 rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
-cd $TMP # Move into package directory
-rm -rf $PRGNAM-$VERSION # Erase prior source
-mkdir -p $TMP/$PRGNAM-$VERSION # Recreate appropriately named source dir
-tar xvf $CWD/$TARNAM --strip-components=1 -C $TMP/$PRGNAM-$VERSION # Unpack source
-cd $PRGNAM-$VERSION
-chown -R root:root . # Give everything to root user/group
+cd $TMP
+rm -rf $SRCNAM-$VERSION
+tar xvf $CWD/$SRCNAM-$VERSION.tar.gz
+cd $SRCNAM-$VERSION
+chown -R root:root .
 find -L . \
  \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
   -o -perm 511 \) -exec chmod 755 {} \; -o \
  \( -perm 666 -o -perm 664 -o -perm 640 -o -perm 600 -o -perm 444 \
   -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
-
-# Apply patches which add a LIB_SUFFIX to the destinations of the JSBSim and aeromatic++ library targets:
-patch -u $TMP/$PRGNAM-$VERSION/src/CMakeLists.txt -i $CWD/src_CMakeLists.patch
-patch -u $TMP/$PRGNAM-$VERSION/utils/aeromatic++/CMakeLists.txt -i $CWD/aeromatic++_CMakeLists.patch
 
 mkdir -p build
 cd build
@@ -103,7 +99,6 @@ cd build
 		-DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
 		-DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
 		-DCMAKE_INSTALL_PREFIX=/usr \
-		-DLIB_SUFFIX="$LIBDIRSUFFIX" \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DPYTHON_EXECUTABLE="$PYTHON_EXECUTABLE" \
 		-DSYSTEM_EXPAT="$SYSTEM_EXPAT" \
@@ -117,24 +112,47 @@ cd ..
 
 rm -f $PKG/{,usr/}lib${LIBDIRSUFFIX}/*.la
 
+# JSBSim's CMake setup does not support GNUInstallDirs or a LIB_SUFFIX cache variable.
+# If a library directory suffix is set, move the libraries to that directory.
+if [ -n "$LIBDIRSUFFIX" ]; then
+  # Create /usr/lib64/ and /usr/lib64/pkgconfig
+  mkdir -p $PKG/usr/lib${LIBDIRSUFFIX}/{,pkgconfig}
+  # Move libAeromatic++ and libJSBSim
+  mv $PKG/usr/lib/libAeromatic++.* $PKG/usr/lib${LIBDIRSUFFIX}/
+  mv $PKG/usr/lib/libJSBSim.* $PKG/usr/lib${LIBDIRSUFFIX}/
+  mv $PKG/usr/lib/pkgconfig/JSBSim.pc $PKG/usr/lib${LIBDIRSUFFIX}/pkgconfig
+  # Set correct library directory in libJSBSim's pkgconfig:
+  sed -i "s|libdir=/usr/lib|libdir=/usr/lib${LIBDIRSUFFIX}|" \
+    $PKG/usr/lib${LIBDIRSUFFIX}/pkgconfig/JSBSim.pc &>> /dev/null
+  # Remove possibly empty directories
+  rmdir --ignore-fail-on-non-empty \
+    $PKG/usr/lib/pkgconfig/ \
+    $PKG/usr/lib
+fi
+
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
 
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
 # Copy repo docs and sample aircraft data
 cp -a \
-   $TMP/$PRGNAM-$VERSION/README.md \
-   $TMP/$PRGNAM-$VERSION/COPYING \
-   $TMP/$PRGNAM-$VERSION/AUTHORS \
-   $TMP/$PRGNAM-$VERSION/doc/DevelopersDocs.md \
-   $TMP/$PRGNAM-$VERSION/doc/spreadsheets/ \
-   $TMP/$PRGNAM-$VERSION/scripts/ \
+   README.md \
+   COPYING \
+   AUTHORS \
+   doc/DevelopersDocs.md \
+   doc/spreadsheets/ \
+   examples/ \
+   aircraft/ \
+   engine/ \
+   systems/ \
+   scripts/ \
    $PKG/usr/doc/$PRGNAM-$VERSION
 
 if [[ "${BUILD_DOCS,,}" = "on" ]]; then # Also copy Doxygen output if built
+  mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION/doxy_html/
   cp -a \
-	 $TMP/$PRGNAM-$VERSION/build/documentation/html/ \
-	 $PKG/usr/doc/$PRGNAM-$VERSION
+    build/documentation/html/ \
+    $PKG/usr/doc/$PRGNAM-$VERSION/doxy_html/
 fi
 cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
 

@@ -25,6 +25,7 @@
 cd $(dirname $0) ; CWD=$(pwd)
 
 PRGNAM=sdorfehs
+SRCNAM=${PRGNAM,,}
 VERSION=${VERSION:-1.5}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_SBo}
@@ -66,16 +67,13 @@ fi
 
 set -e
 
-TARNAM=v$VERSION.tar.gz # Source download has a 'v' prefix
-
 rm -rf $PKG
 mkdir -p $TMP $PKG $OUTPUT
-cd $TMP # Move into package directory
-rm -rf $PRGNAM-$VERSION # Erase prior source
-mkdir -p $TMP/$PRGNAM-$VERSION # Recreate appropriately named source dir
-tar xvf $CWD/$TARNAM --strip-components=1 -C $TMP/$PRGNAM-$VERSION # Unpack source
-cd $PRGNAM-$VERSION
-chown -R root:root . # Give everything to root user/group
+cd $TMP
+rm -rf $SRCNAM-$VERSION
+tar xvf $CWD/$SRCNAM-$VERSION.tar.gz
+cd $SRCNAM-$VERSION
+chown -R root:root .
 find -L . \
  \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
   -o -perm 511 \) -exec chmod 755 {} \; -o \
@@ -83,8 +81,8 @@ find -L . \
   -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
 
 CFLAGS="$SLKCFLAGS" \
-	  CXXFLAGS="$SLKCFLAGS" \
-	  make
+  CXXFLAGS="$SLKCFLAGS" \
+  make
 make install PREFIX=/usr DESTDIR=$PKG
 
 rm -f $PKG/{,usr/}lib${LIBDIRSUFFIX}/*.la
