@@ -65,8 +65,8 @@ $ sudo ./distribute.py --build-single sdorfehs # Replace with needed SlackBuild 
 
   You can also be prompted to supply options for each script.  The format for options is *OPTION1=VALUE OPTION2=VALUE*.  You should view the /README/ for each script to see which options are available.  See the following snippet:
 
-  ,#+BEGIN_SRC shell
-  $ sudo ./distribute.py --build-all --options
+#+BEGIN_SRC shell
+$ sudo ./distribute.py --build-all --options
 #+END_SRC
 
 By default the created packages will be placed in a directory named /build/ at the root of the repository.  You can provide different values to the TMP and OUTPUT variables of the SlackBuild scripts by using:
