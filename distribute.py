@@ -25,12 +25,27 @@ CWD = getcwd()
 PRGNAM = basename(__file__)
 DEF_TMP_DIR = CWD + "/build"
 DEF_OUTPUT_DIR = CWD + "/build"
+BOLD_RED   = "\033[1;31m"
+BOLD_GREEN = "\033[1;32m"
+NORM_RESET = "\033[0;0m"
 # Globals:
 ignore_checksums = False
+# Type aliases:
+DirList = list[str]
 
+def print_good(*args, **kwargs) -> None:
+    #print(BOLD_GREEN, end="")
+    print(*args, **kwargs)
+    #print(NORM_RESET, end="")
+
+def print_bad(*args, **kwargs) -> None:
+    #print(BOLD_RED, end="", file=sys.stderr)
+    print(*args, file=sys.stderr, **kwargs)
+    #print(NORM_RESET, end="", file=sys.stderr)
+    
 def check_root() -> bool:
     if not geteuid() == 0:
-        print("You must run this script as root to use this option!", file=sys.stderr)
+        print_bad("You must run this script as root to use this option!")
         exit(EX_NOPERM)    
 
 def init_argparse() -> ArgumentParser:
@@ -53,7 +68,7 @@ def init_argparse() -> ArgumentParser:
                         version=f"{parser.prog} version 1.0.0")
     return parser
 
-def retrieve_slackbuild_dirs(dirname='.') -> list:
+def retrieve_slackbuild_dirs(dirname: str='.') -> DirList:
     """Retrieve all visible immediate directorys in DIRNAME."""
     excludes = ["build", "__pycache__"]
     return list(filter(
@@ -61,14 +76,14 @@ def retrieve_slackbuild_dirs(dirname='.') -> list:
         next(walk(dirname))[1]
     ))
 
-def info_var_to_list(line) -> list:
+def info_var_to_list(line: str) -> list:
     """Create a list from a space-delimited variable in a single SlackBuild .info file LINE."""
     return list(filter(
         lambda item: item,
         line.split('="', maxsplit=1)[1:][0][:-1].split(' ')
     ))
 
-def urls_from_info(slackbuild_name) -> tuple:
+def urls_from_info(slackbuild_name: str) -> tuple:
     """Return a tuple of url and checksum lists from a SLACKBUILD_NAME.info file."""
     urls = []
     checksums = []
@@ -88,7 +103,7 @@ def urls_from_info(slackbuild_name) -> tuple:
     # Return tuple of urls & checksums
     return (urls, checksums)
 
-def download_file(url) -> str:
+def download_file(url: str) -> str:
     """Download file at URL and preserve the original filename."""
     try:
         with requests.get(url, stream=True) as r:
@@ -103,7 +118,7 @@ def download_file(url) -> str:
     except RequestException as e:
         print(e)
 
-def checksum_validate(filename, checksum) -> None:
+def checksum_validate(filename: str, checksum: str) -> None:
     """If the md5 checksum of FILENAME does not match CHECKSUM, then prompt before continuing."""
     file_checksum = hashlib.md5(open(filename, 'rb').read()).hexdigest()
     # When the file's checksum is not the same as the given argument
@@ -115,7 +130,8 @@ Do you still want to continue? (y/n) """)
             print("Exiting...")
             exit(EX_OK)
           
-def build(slackbuild_dirs, tmp_dir, output_dir, supply_options=False) -> None:
+def build(slackbuild_dirs: list, tmp_dir: str, output_dir: str,
+          supply_options: bool=False) -> None:
     """Build SlackBuilds determined by SLACKBUILD_DIRS.
     TMP_DIR The TMP path variable of a SlackBuild.
     OUTPUT_DIR The OUTPUT path variable of a SlackBuild.
@@ -136,7 +152,7 @@ See the README for each SlackBuild for more information.\n""")
             slackbuild_options[dirname] = options
     
     for dirname in slackbuild_dirs:
-        print(f"Fetching package sources for {dirname}...")
+        print_good(f"Fetching package sources for {dirname}...")
         # Change to the SlackBuild's directory
         chdir(dirname)
         # Download the package source(s):
@@ -148,21 +164,21 @@ See the README for each SlackBuild for more information.\n""")
                 checksum_validate(filename, checksum)
 
         try:
-            print(f"\nNow building {dirname}...\n")
+            print_good(f"\nNow building {dirname}...\n")
             
             options = slackbuild_options[dirname] or ""
             # Run slackbuild with options, if given:
             sp.check_call(f"{options} TMP={tmp_dir} OUTPUT={output_dir} bash {dirname}.SlackBuild",
                           shell=True)
 
-            print(f"Build of {dirname} now complete.\n")
+            print_good(f"Build of {dirname} now complete.\n")
         except CalledProcessError as e:
-            print("SlackBuild failed with exitcode: ", e.returncode, file=sys.stderr)
+            print_bad("SlackBuild failed with exitcode: ", e.returncode)
             exit(EX_SOFTWARE)
         # Move back into the parent directory
         chdir("..")
 
-    print("All SlackBuild packages created successfully.")
+    print_good("All SlackBuild packages created successfully.")
 
 def main() -> None:
     parser = init_argparse()
@@ -181,15 +197,15 @@ def main() -> None:
         check_root()
 
         if not args.build_single in slackbuild_dirs:
-            print("A SlackBuild with the provided name does not exist!", file=sys.stderr)
+            print_bad("A SlackBuild with the provided name does not exist!")
             exit(EX_DATAERR)
 
-        print(f"Creating SlackBuild package: {args.build_single}...\n")
+        print_good(f"Creating SlackBuild package: {args.build_single}...\n")
         build(args.build_single, tmp_dir, output_dir, args.options)
     elif args.build_all:
         check_root()
 
-        print("Creating all SlackBuild packages...\n")
+        print_good("Creating all SlackBuild packages...\n")
         build(slackbuild_dirs, tmp_dir, output_dir, args.options)
     else:
         parser.print_help()
