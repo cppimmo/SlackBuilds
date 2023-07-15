@@ -149,9 +149,10 @@ cp -a \
    $PKG/usr/doc/$PRGNAM-$VERSION
 
 if [[ "${BUILD_DOCS,,}" = "on" ]]; then # Also copy Doxygen output if built
+  mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION/doxy_html/
   cp -a \
     build/documentation/html/ \
-    $PKG/usr/doc/$PRGNAM-$VERSION
+    $PKG/usr/doc/$PRGNAM-$VERSION/doxy_html/
 fi
 cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
 
