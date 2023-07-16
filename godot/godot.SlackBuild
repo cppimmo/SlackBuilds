@@ -1,6 +1,4 @@
 #!/bin/bash
-#
-# ex:set ai shiftwidth=4 inputtab=spaces smarttab noautotab:
 
 # Slackware build script for the Godot Engine
 
@@ -31,27 +29,12 @@ VERSION=${VERSION:-4.1}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_Brian}
 PKGTYPE=${PKGTYPE:-tgz}
-
-# OPTIONS (see https://docs.godotengine.org/en/latest/contributing/development/compiling/compiling_for_linuxbsd.html)
-
-PLATFORM=linuxbsd # Should remain linuxbsd
-USE_UDEV=${UDEV:-no} # Use libudev
-USE_LLVM=${USE_LLVM:-no} # Use clang instead of GCC
-LINKER=${LINKER:-ldd} # Use a different linker (lld for Clang)
-USE_LTO=${USE_LTO:-no} # Use link-time optimization (GCC only)
-TARGET=${TARGET:-editor} # Editor target by default
-# For use with template_release target:
-PRODUCTION=${PRODUCTION:-no} # Make executable smaller and faster for production use
-TEMPLATE_64=${TEMPLATE_64:-no}
-TEMPLATE_32=${TEMPLATE_32:-no}
-# Supply either doxygen, rst, or rstjs to build documentation
-#DOC=doxygen | rst | rstjs
-			  
+	  
 if [ -z "$ARCH" ]; then
-  case "$(uname -m)" in
+  case "$( uname -m )" in
   	i?86) ARCH=i586 ;;
 	arm*) ARCH=arm ;;
-	*) ARCH=$(uname -m) ;;
+	   *) ARCH=$( uname -m ) ;;
   esac
 fi
 
@@ -75,6 +58,9 @@ elif [ "$ARCH" = "i686" ]; then
 elif [ "$ARCH" = "x86_64" ]; then
   SLKCFLAGS="-O2 -fPIC"
   LIBDIRSUFFIX="64"
+elif [ "$ARCH" = "aarch64" ]; then
+  SLKCFLAGS="-O2 -fPIC"
+  LIBDIRSUFFIX="64"
 else
   SLKCFLAGS="-O2"
   LIBDIRSUFFIX=""
@@ -82,16 +68,29 @@ fi
 
 set -e
 
-# Source download has a '-stable' suffix
+# OPTIONS (see https://docs.godotengine.org/en/latest/contributing/development/compiling/compiling_for_linuxbsd.html)
 
-rm -rf "$PKG" # Delete existing package directory if present
-mkdir -p "$TMP" "$PKG" "$OUTPUT"
-cd "$TMP" # Move into package directory
-rm -rf "$PRGNAM-$VERSION"
-tar xvf "$CWD/$PRGNAM-$VERSION-stable.tar.xz" # Unpack source
-cd "$PRGNAM-$VERSION"-stable
+PLATFORM=linuxbsd # Should remain linuxbsd
+USE_UDEV=${UDEV:-no} # Use libudev
+USE_LLVM=${USE_LLVM:-no} # Use clang instead of GCC
+LINKER=${LINKER:-ldd} # Use a different linker (lld for Clang)
+USE_LTO=${USE_LTO:-no} # Use link-time optimization (GCC only)
+TARGET=${TARGET:-editor} # Editor target by default
+# For use with template_release target:
+PRODUCTION=${PRODUCTION:-no} # Make executable smaller and faster for production use
+TEMPLATE_64=${TEMPLATE_64:-no}
+TEMPLATE_32=${TEMPLATE_32:-no}
+# Supply either doxygen, rst, or rstjs to build documentation
+#DOC=doxygen | rst | rstjs
 
-chown -R root:root . # Give everything to root user/group
+rm -rf $PKG
+mkdir -p $TMP $PKG $OUTPUT
+cd $TMP
+rm -rf $PRGNAM-$VERSION
+tar xvf $CWD/$PRGNAM-$VERSION-stable.tar.xz
+mv $PRGNAM-$VERSION-stable $PRGNAM-$VERSION # Remove suffix from source source download
+cd $PRGNAM-$VERSION
+chown -R root:root .
 find -L . \
  \( -perm 777 -o -perm 775 -o -perm 750 -o -perm 711 -o -perm 555 \
   -o -perm 511 \) -exec chmod 755 {} \; -o \
@@ -110,41 +109,39 @@ scons platform="$PLATFORM" \
 	  use_llvm="$USE_LLVM" \
 	  use_lto="$USE_LTO"
 
-# Build linuxbsd 32bit export template
-if egrep -iq 'yes' <<< $TEMPLATE_32; then
+if [[ ${TEMPLATE_32,,} = "yes" ]]; then # Build linuxbsd 32bit export template
   scons platform="$PLATFORM" target=template_release arch=x86_32
   scons platform="$PLATFORM" target=template_debug arch=x86_32
 fi
 
-# Build linuxbsd 64bit export template
-if egrep -iq 'yes' <<< $TEMPLATE_64; then
+if [[ ${TEMPLATE_64,,} = "yes" ]]; then # Build linuxbsd 64bit export template
   scons platform="$PLATFORM" target=template_release arch=x86_64
   scons platform="$PLATFORM" target=template_debug arch=x86_64
 fi
 
-# Only process when a non-empty 
-if [ -n "$DOC" ]; then
-  # Move into the documentation directory
-  cd "$TMP/$PRGNAM-$VERSION"-stable/doc
+if [ -n "$DOC" ]; then # Only process when a non-empty 
+  cd doc # Move into the documentation directory
 
   # Build multiple doc targets by splitting comma delimited string: doxygen,rst
   DELIMITED_DOCS=($(echo "$DOC" | tr ',' ' '))
 
   for target in "${DELIMITED_DOCS[@]}"; do
-	  make OUTPUTDIR=./_build "$target"
+	make OUTPUTDIR=./_build "$target"
   done
 
   cd ..	# Move out once
 fi
 
 # Store however many binaries were produced in the build (should most likely be one)
-mkdir -p "$PKG"/usr/local/bin
-find "$TMP/$PRGNAM-$VERSION"-stable/bin -type f -exec install -Dm 755 "{}" "$PKG/usr/local/bin" \;
+mkdir -p $PKG/usr/local/bin
+cp -a \
+   $TMP/$PRGNAM-$VERSION/bin/* \
+   $PKG/usr/bin
 
 # Create a desktop icon entry
-mkdir -p "$PKG"/usr/share/applications
-DESKTOP_EXEC="$PRGNAM.$PLATFORM.$TARGET.$ARCH"
-DESKTOP_FILENAME="$PKG/usr/share/applications/godot.desktop"
+mkdir -p $PKG/usr/share/applications
+DESKTOP_EXEC=$PRGNAM.$PLATFORM.$TARGET.$ARCH
+DESKTOP_FILENAME=$PKG/usr/share/applications/godot.desktop
 
 {
   echo "[Desktop Entry]"
@@ -155,8 +152,8 @@ DESKTOP_FILENAME="$PKG/usr/share/applications/godot.desktop"
 } >> "$DESKTOP_FILENAME"
 
 # Add the godot icon for use by the desktop entry
-mkdir -p "$PKG"/usr/share/pixmaps/
-install -m 644 "$TMP/$PRGNAM-$VERSION"-stable/icon.png "$PKG"/usr/share/pixmaps/godot.png
+mkdir -p $PKG/usr/share/pixmaps/
+install -m 644 $TMP/$PRGNAM-$VERSION/icon.png $PKG/usr/share/pixmaps/godot.png
 
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
@@ -165,11 +162,11 @@ mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
 # Copy each built documentation target
 if [ -n "$DOC" ]; then
   # Move into the documentation directory
-  cd "$TMP/$PRGNAM-$VERSION"-stable/doc
+  cd doc
 	
-  for target in "${DELIMITED_DOCS[@]}"; do
+  for target in ${DELIMITED_DOCS[@]}; do
     cp -a \
-	   ./_build/"$target" \
+	   ./_build/${target} \
 	   $PKG/usr/doc/$PRGNAM-$VERSION
   done
 
